@@ -9,7 +9,18 @@ import { DynamicAd } from "@/components/ui/dynamic-ad"
 // A helper to render category blocks in a dense "Magazine" layout
 function CategoryBlock({ title, posts, slug }: { title: string, posts: any[], slug: string }) {
   if (!posts || posts.length === 0) {
-    return null;
+    return (
+      <section className="mb-12 border-t-[3px] border-foreground pt-4 relative">
+        <div className="flex items-center justify-between mb-6 pb-2 border-b border-border/40">
+          <h2 className="text-xl md:text-2xl font-black font-serif tracking-tight text-foreground uppercase">
+            {title}
+          </h2>
+        </div>
+        <div className="w-full py-12 bg-muted/20 border border-dashed border-border/60 rounded-xl flex items-center justify-center">
+          <p className="text-muted-foreground font-medium text-sm">New articles coming soon to {title}...</p>
+        </div>
+      </section>
+    );
   }
   
   return (

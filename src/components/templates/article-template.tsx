@@ -184,8 +184,8 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
           
           <hr className="my-16 border-border/50 border-t" />
 
-          {/* End of Article Newsletter */}
-          <div className="bg-gradient-to-br from-primary/10 to-secondary/5 border border-primary/20 p-10 text-center mb-12 rounded-3xl shadow-xl shadow-primary/5 relative overflow-hidden">
+        {/* End of Article Newsletter */}
+          <div className="bg-gradient-to-br from-primary/10 to-secondary/5 border border-primary/20 p-10 text-center mb-16 rounded-3xl shadow-xl shadow-primary/5 relative overflow-hidden">
             <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
             
@@ -196,6 +196,20 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
             />
           </div>
 
+          {/* Read Next / Related Articles */}
+          {relatedPosts && relatedPosts.length > 1 && (
+            <div className="mb-12 border-t-2 border-border/60 pt-8 mt-12">
+              <h3 className="font-bold text-2xl font-serif text-foreground mb-8 flex items-center gap-3">
+                <span className="w-1.5 h-6 bg-primary rounded-sm"></span>
+                Read Next
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {relatedPosts.filter(p => p.id !== post.id).slice(0, 4).map((relatedPost) => (
+                  <NewsCard key={relatedPost.id} post={relatedPost} variant="compact" />
+                ))}
+              </div>
+            </div>
+          )}
 
         </article>
 
