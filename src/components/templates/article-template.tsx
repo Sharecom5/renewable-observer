@@ -185,17 +185,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
           
           <hr className="my-16 border-border/50 border-t" />
 
-        {/* End of Article Newsletter */}
-          <div className="bg-gradient-to-br from-primary/10 to-secondary/5 border border-primary/20 p-10 text-center mb-16 rounded-3xl shadow-xl shadow-primary/5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
-            
-            <SubscribeForm 
-              title="Subscribe to Renewable Observer"
-              description="Get the latest insights, market trends, and policy updates delivered directly to your inbox every morning."
-              variant="article"
-            />
-          </div>
+
 
           {/* Read Next / Related Articles */}
           {relatedPosts && relatedPosts.length > 1 && (
@@ -212,19 +202,8 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
             </div>
           )}
 
-        </article>
-
-        {/* Sidebar */}
+        </article>        {/* Sidebar */}
         <aside className="lg:col-span-4 space-y-10">
-          {/* Newsletter Widget - Strict Editorial Style */}
-          <div className="border border-border p-6 bg-background border-t-4 border-t-primary shadow-sm">
-            <SubscribeForm 
-              title="Subscribe to Renewable Observer"
-              description="Get the latest insights, market trends, and policy updates delivered directly to your inbox every morning."
-              variant="article"
-            />
-          </div>
-
           {/* Related Articles */}
           <div>
             <h3 className="font-bold text-sm uppercase tracking-widest mb-6 flex items-center gap-2 border-b border-border pb-2 text-primary">
