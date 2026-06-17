@@ -3,6 +3,8 @@ export interface Category {
   name: string;
   slug: string;
   count?: number;
+  rank_math_title?: string;
+  rank_math_description?: string;
 }
 
 export interface Author {
