@@ -105,9 +105,10 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
                 {category.name}
               </span>
             )}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15] mb-6 text-foreground font-serif">
-              {post.title.rendered}
-            </h1>
+            <h1 
+              className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15] mb-6 text-foreground font-serif"
+              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+            />
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-4 border-y border-border">
               <div className="flex items-center gap-3">
