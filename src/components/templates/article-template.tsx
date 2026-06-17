@@ -3,6 +3,7 @@ import Link from "next/link"
 import { format } from "date-fns"
 import { NewsCard } from "@/components/ui/news-card"
 import { SubscribeForm } from "@/components/ui/subscribe-form"
+import { DynamicAd } from "@/components/ui/dynamic-ad"
 import { Post } from "@/types"
 
 interface ArticleTemplateProps {
