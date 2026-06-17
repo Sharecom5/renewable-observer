@@ -102,7 +102,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
           <header className="mb-10">
             {category && (
               <span className="text-sm font-bold text-primary uppercase tracking-widest mb-4 inline-block px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
-                {category.name}
+                {category.name === "Uncategorized" ? "Daily Updates" : category.name}
               </span>
             )}
             <h1 
@@ -228,7 +228,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
           {/* Related Articles */}
           <div>
             <h3 className="font-bold text-sm uppercase tracking-widest mb-6 flex items-center gap-2 border-b border-border pb-2 text-primary">
-              More In {category?.name || "News"}
+              More In {category?.name === "Uncategorized" ? "Daily Updates" : (category?.name || "News")}
             </h3>
             <div className="flex flex-col gap-6">
               {relatedPosts.filter(p => p.id !== post.id).slice(0, 3).map(relatedPost => (

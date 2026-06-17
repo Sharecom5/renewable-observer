@@ -17,6 +17,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
   const isCompact = variant === "compact";
   const isTextOnly = variant === "textOnly";
   const category = post.category_info?.[0];
+  const displayCategory = category?.name === "Uncategorized" || !category?.name ? "Daily Updates" : category.name;
 
   if (isOverlay) {
     return (
@@ -48,7 +49,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
         <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 flex flex-col z-30 pointer-events-none">
           {category && (
             <p className="text-[10px] sm:text-xs font-black text-primary uppercase tracking-[0.2em] mb-3 drop-shadow-md">
-              {category.name}
+              {displayCategory}
             </p>
           )}
           <h2 className="font-serif font-bold text-white text-xl sm:text-2xl md:text-3xl leading-[1.2] mb-3 drop-shadow-lg group-hover:text-white/90 transition-colors">
@@ -70,7 +71,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
       >
         <Link href={`/${post.slug}`} className="flex flex-col gap-1.5">
           {category && (
-            <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{category.name}</p>
+            <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{displayCategory}</p>
           )}
           <h3 className="font-semibold font-serif text-xs leading-snug group-hover:text-primary transition-colors text-foreground line-clamp-3">
             {post.title.rendered}
@@ -92,7 +93,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
         <Link href={`/${post.slug}`} className="flex gap-4 py-4 items-start">
           <div className="flex-1 space-y-1">
             {category && (
-              <p className="text-xs font-bold text-primary uppercase tracking-widest">{category.name}</p>
+              <p className="text-xs font-bold text-primary uppercase tracking-widest">{displayCategory}</p>
             )}
             <h3 className="font-semibold font-serif text-sm leading-tight group-hover:text-primary transition-colors text-foreground">
               {post.title.rendered}
@@ -143,7 +144,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
       
       <div className="flex flex-col flex-1 px-4 pb-4">
         {category && (
-          <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{category.name}</p>
+          <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{displayCategory}</p>
         )}
         <Link href={`/${post.slug}`}>
           <h2 className={`font-serif font-semibold group-hover:text-primary transition-colors text-foreground mb-1.5 ${isFeatured ? 'text-base md:text-lg leading-[1.3] tracking-tight' : 'text-sm leading-snug line-clamp-3'}`}>
