@@ -52,9 +52,10 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
               {displayCategory}
             </p>
           )}
-          <h2 className="font-serif font-bold text-white text-xl sm:text-2xl md:text-3xl leading-[1.2] mb-3 drop-shadow-lg group-hover:text-white/90 transition-colors">
-            {post.title.rendered}
-          </h2>
+          <h2 
+            className="font-serif font-bold text-white text-xl sm:text-2xl md:text-3xl leading-[1.2] mb-3 drop-shadow-lg group-hover:text-white/90 transition-colors"
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+          />
           <div className="flex items-center gap-3 text-xs text-white/80 uppercase tracking-wider font-semibold drop-shadow-md">
             <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
           </div>
@@ -73,9 +74,10 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
           {category && (
             <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{displayCategory}</p>
           )}
-          <h3 className="font-semibold font-serif text-xs leading-snug group-hover:text-primary transition-colors text-foreground line-clamp-3">
-            {post.title.rendered}
-          </h3>
+          <h3 
+            className="font-semibold font-serif text-xs leading-snug group-hover:text-primary transition-colors text-foreground line-clamp-3"
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+          />
           <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-1">
             {formatDistanceToNow(new Date(post.date), { addSuffix: true })}
           </p>
@@ -95,9 +97,10 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
             {category && (
               <p className="text-xs font-bold text-primary uppercase tracking-widest">{displayCategory}</p>
             )}
-            <h3 className="font-semibold font-serif text-sm leading-tight group-hover:text-primary transition-colors text-foreground">
-              {post.title.rendered}
-            </h3>
+            <h3 
+              className="font-semibold font-serif text-sm leading-tight group-hover:text-primary transition-colors text-foreground"
+              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+            />
             <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
               {formatDistanceToNow(new Date(post.date), { addSuffix: true })}
             </p>
@@ -147,9 +150,10 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
           <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{displayCategory}</p>
         )}
         <Link href={`/${post.slug}`}>
-          <h2 className={`font-serif font-semibold group-hover:text-primary transition-colors text-foreground mb-1.5 ${isFeatured ? 'text-base md:text-lg leading-[1.3] tracking-tight' : 'text-sm leading-snug line-clamp-3'}`}>
-            {post.title.rendered}
-          </h2>
+          <h2 
+            className={`font-serif font-semibold group-hover:text-primary transition-colors text-foreground mb-1.5 ${isFeatured ? 'text-base md:text-lg leading-[1.3] tracking-tight' : 'text-sm leading-snug line-clamp-3'}`}
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+          />
         </Link>
         
         {isFeatured && (

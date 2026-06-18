@@ -90,9 +90,11 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
             <>
               <li><Link href={`/${category.slug}`} className="hover:text-primary transition-colors">{category.name}</Link></li>
               <li><span className="mx-2 opacity-50">&gt;</span></li>
-            </>
           )}
-          <li className="text-foreground truncate max-w-[150px] sm:max-w-xs">{post.title.rendered}</li>
+          <li 
+            className="text-foreground truncate max-w-[150px] sm:max-w-xs"
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+          />
         </ol>
       </nav>
 
@@ -216,9 +218,10 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
                     {relatedPost.category_info?.[0]?.name}
                   </div>
                   <Link href={`/${relatedPost.slug}`} className="block">
-                    <h4 className="font-bold font-serif text-lg leading-tight group-hover:text-primary transition-colors">
-                      {relatedPost.title.rendered}
-                    </h4>
+                    <h4 
+                      className="font-bold font-serif text-lg leading-tight group-hover:text-primary transition-colors"
+                      dangerouslySetInnerHTML={{ __html: relatedPost.title.rendered }}
+                    />
                   </Link>
                 </div>
               ))}
