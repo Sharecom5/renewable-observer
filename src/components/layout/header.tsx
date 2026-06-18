@@ -114,7 +114,7 @@ export function Header() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/interviews" className={navigationMenuTriggerStyle()}>
+                <Link href="/interview" className={navigationMenuTriggerStyle()}>
                   INTERVIEWS
                 </Link>
               </NavigationMenuItem>
@@ -148,11 +148,11 @@ export function Header() {
           <Link href="/hydrogen" className="text-sm font-bold tracking-wider uppercase py-2 border-b border-border" onClick={() => setMobileMenuOpen(false)}>Hydrogen</Link>
           <Link href="/market" className="text-sm font-bold tracking-wider uppercase py-2 border-b border-border" onClick={() => setMobileMenuOpen(false)}>Markets</Link>
           <Link href="/storage" className="text-sm font-bold tracking-wider uppercase py-2 border-b border-border" onClick={() => setMobileMenuOpen(false)}>Storage</Link>
+          <Link href="/policy" className="text-sm font-bold tracking-wider uppercase py-2 border-b border-border" onClick={() => setMobileMenuOpen(false)}>Policy</Link>
+          <Link href="/interview" className="text-sm font-bold tracking-wider uppercase py-2 border-b border-border" onClick={() => setMobileMenuOpen(false)}>Interviews</Link>
           <Link href="/ev" className="text-sm font-bold tracking-wider uppercase py-2 border-b border-border" onClick={() => setMobileMenuOpen(false)}>EV</Link>
         </div>
       )}
     </header>
   )
-}
-
 

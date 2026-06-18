@@ -9,18 +9,7 @@ import { DynamicAd } from "@/components/ui/dynamic-ad"
 // A helper to render category blocks in a dense "Magazine" layout
 function CategoryBlock({ title, posts, slug }: { title: string, posts: any[], slug: string }) {
   if (!posts || posts.length === 0) {
-    return (
-      <section className="mb-12 border-t-[3px] border-foreground pt-4 relative">
-        <div className="flex items-center justify-between mb-6 pb-2 border-b border-border/40">
-          <h2 className="text-xl md:text-2xl font-black font-serif tracking-tight text-foreground uppercase">
-            {title}
-          </h2>
-        </div>
-        <div className="w-full py-12 bg-muted/20 border border-dashed border-border/60 rounded-xl flex items-center justify-center">
-          <p className="text-muted-foreground font-medium text-sm">New articles coming soon to {title}...</p>
-        </div>
-      </section>
-    );
+    return null;
   }
   
   return (
@@ -35,21 +24,23 @@ function CategoryBlock({ title, posts, slug }: { title: string, posts: any[], sl
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Side: Massive Featured Article (7 columns) */}
-        <div className="lg:col-span-7">
+        {/* Left Side: Massive Featured Article */}
+        <div className={posts.length > 1 ? "lg:col-span-7" : "lg:col-span-12"}>
           <FadeIn className="h-full">
             <NewsCard post={posts[0]} variant="featured" />
           </FadeIn>
         </div>
         
         {/* Right Side: Stacked Compact Articles (5 columns) */}
-        <div className="lg:col-span-5 flex flex-col gap-4">
-          {posts.slice(1, 4).map((post, i) => (
-            <FadeIn key={post.id} delay={i * 0.1}>
-              <NewsCard post={post} variant="compact" />
-            </FadeIn>
-          ))}
-        </div>
+        {posts.length > 1 && (
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            {posts.slice(1, 4).map((post, i) => (
+              <FadeIn key={post.id} delay={i * 0.1}>
+                <NewsCard post={post} variant="compact" />
+              </FadeIn>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
@@ -61,7 +52,7 @@ export default async function Home() {
   const windPosts = await getPostsByCategorySlug('wind', 4)
   const hydrogenPosts = await getPostsByCategorySlug('hydrogen', 4)
   const marketPosts = await getPostsByCategorySlug('markets', 4)
-  const interviewsPosts = await getPostsByCategorySlug('interviews', 4)
+  const interviewsPosts = await getPostsByCategorySlug('interview', 4)
 
   const featuredPost = allPosts[0]
   const latestTicker = allPosts.slice(1, 6)
