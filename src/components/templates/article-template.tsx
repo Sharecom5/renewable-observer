@@ -90,6 +90,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
             <>
               <li><Link href={`/${category.slug}`} className="hover:text-primary transition-colors">{category.name}</Link></li>
               <li><span className="mx-2 opacity-50">&gt;</span></li>
+            </>
           )}
           <li 
             className="text-foreground truncate max-w-[150px] sm:max-w-xs"
