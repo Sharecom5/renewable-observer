@@ -11,7 +11,7 @@ export default function SitemapPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Sitemap</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Sitemap</h1>
  <p className="text-lg text-muted-foreground font-medium">Directory of Renewable Observer</p>
  </div>
  </FadeIn>

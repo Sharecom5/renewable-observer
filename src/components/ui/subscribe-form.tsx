@@ -33,7 +33,7 @@ export function SubscribeForm({ title, description, variant = "footer" }: Subscr
   return (
     <div className={`flex flex-col ${isArticle ? '' : 'gap-3 max-w-sm'}`}>
       {title && (
-        <p className={isArticle ? "font-bold text-2xl mb-2 text-foreground font-serif relative z-10" : "text-sm font-semibold text-foreground"}>
+        <p className={isArticle ? "font-bold text-2xl mb-2 text-foreground relative z-10" : "text-sm font-semibold text-foreground"}>
           {title}
         </p>
       )}

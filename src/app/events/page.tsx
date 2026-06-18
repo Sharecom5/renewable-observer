@@ -18,8 +18,8 @@ export default function EventsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="mb-12 border-b pb-8">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Events & Summits</h1>
- <p className="text-xl text-muted-foreground max-w-3xl">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Events & Summits</h1>
+ <p className="text-base text-muted-foreground max-w-3xl">
  Join our expert analysts and global industry leaders at upcoming conferences, exclusive briefings, and virtual webinars.
  </p>
  </div>

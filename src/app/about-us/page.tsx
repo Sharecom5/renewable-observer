@@ -11,9 +11,9 @@ export default function AboutPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-16">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-primary">About Renewable Observer</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-6 text-primary">About Renewable Observer</h1>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground">
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">
  Welcome to Renewable Observer, a global renewable energy media company dedicated to delivering trusted industry news, market intelligence, sustainability insights, clean energy developments, and thought leadership content for professionals, businesses, policymakers, investors, researchers, and sustainability advocates worldwide.
  </p>
  <p className="mb-4">
@@ -57,7 +57,7 @@ export default function AboutPage() {
  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
  {/* Categories */}
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Solar Energy</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Solar Energy</h3>
  <p className="text-muted-foreground mb-3 text-sm">Solar power remains one of the fastest-growing renewable energy technologies globally. Our solar coverage includes:</p>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Utility-scale solar projects</li>
@@ -72,7 +72,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Wind Energy</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Wind Energy</h3>
  <p className="text-muted-foreground mb-3 text-sm">Wind power continues to play a major role in clean energy generation. We report on:</p>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Onshore wind projects</li>
@@ -86,7 +86,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Energy Storage</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Energy Storage</h3>
  <p className="text-muted-foreground mb-3 text-sm">Energy storage is critical to renewable energy integration and grid stability. Our coverage includes:</p>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Battery Energy Storage Systems (BESS)</li>
@@ -99,7 +99,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Green Hydrogen</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Green Hydrogen</h3>
  <p className="text-muted-foreground mb-3 text-sm">Green hydrogen is rapidly becoming an important pillar of future energy systems. Renewable Observer covers:</p>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Hydrogen production technologies</li>
@@ -113,7 +113,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Hydropower & Ocean Energy</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Hydropower & Ocean Energy</h3>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Hydroelectric & pumped storage facilities</li>
  <li>Infrastructure modernization</li>
@@ -125,7 +125,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Bioenergy & Geothermal</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Bioenergy & Geothermal</h3>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Biomass & Biogas projects</li>
  <li>Biofuels</li>
@@ -136,7 +136,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Electric Mobility & Climate Tech</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Electric Mobility & Climate Tech</h3>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Electric vehicles & charging infrastructure</li>
  <li>Fleet electrification</li>
@@ -148,7 +148,7 @@ export default function AboutPage() {
  </div>
 
  <div>
- <h3 className="text-xl font-bold mb-3 text-secondary">Finance, ESG & Supply Chains</h3>
+ <h3 className="text-base font-bold mb-3 text-secondary">Finance, ESG & Supply Chains</h3>
  <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
  <li>Project financing & infrastructure investments</li>
  <li>Mergers and acquisitions & Venture capital</li>
@@ -195,14 +195,14 @@ export default function AboutPage() {
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
  <div>
- <h3 className="text-xl font-bold mb-3 text-foreground">Events and Industry Engagement</h3>
+ <h3 className="text-base font-bold mb-3 text-foreground">Events and Industry Engagement</h3>
  <p className="text-sm text-muted-foreground mb-4">Renewable Observer actively supports industry engagement through Conferences, Webinars, Industry forums, Awards programs, Educational initiatives, and Networking opportunities.</p>
  <Link href="/events" className="text-primary text-sm font-semibold hover:underline flex items-center gap-1">
  View our Events section →
  </Link>
  </div>
  <div>
- <h3 className="text-xl font-bold mb-3 text-foreground">Advertising and Partnerships</h3>
+ <h3 className="text-base font-bold mb-3 text-foreground">Advertising and Partnerships</h3>
  <p className="text-sm text-muted-foreground mb-4">We work with organizations across renewable energy, sustainability, and climate technology sectors to create responsible advertising and partnership opportunities. We support Brand awareness campaigns, Sponsored content, Event partnerships, Industry collaborations, and Thought leadership initiatives.</p>
  <Link href="/advertise-with-us" className="text-primary text-sm font-semibold hover:underline flex items-center gap-1">
  Advertise With Us →
@@ -219,7 +219,7 @@ export default function AboutPage() {
  <p>Our coverage spans Asia Pacific, Europe, North America, Latin America, Middle East, and Africa. By providing international perspectives, we help readers understand how renewable energy markets are evolving across different regions and regulatory environments.</p>
  </div>
  <div className="bg-background border p-8 ">
- <h3 className="font-bold text-xl mb-4 text-foreground">Contact Renewable Observer</h3>
+ <h3 className="font-bold text-base mb-4 text-foreground">Contact Renewable Observer</h3>
  <p className="text-sm text-muted-foreground mb-6">We welcome feedback, press releases, partnership inquiries, story suggestions, and industry insights.</p>
  <ul className="space-y-4 text-sm mb-8">
  <li><strong className="text-foreground block mb-1">General Inquiries:</strong> <a href="mailto:hello@renewableobserver.com" className="text-primary hover:underline font-medium">hello@renewableobserver.com</a></li>
@@ -240,8 +240,8 @@ export default function AboutPage() {
  <section className="text-center bg-primary text-primary-foreground p-10 md:p-16 relative overflow-hidden">
  <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
  <div className="relative z-10">
- <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Commitment to the Future</h2>
- <p className="text-lg md:text-xl mb-8 leading-relaxed opacity-90 max-w-3xl mx-auto">
+ <h2 className="text-2xl md:text-3xl font-bold mb-6">Our Commitment to the Future</h2>
+ <p className="text-lg md:text-base mb-8 leading-relaxed opacity-90 max-w-3xl mx-auto">
  The renewable energy transition represents one of the most important global transformations of our time. Renewable Observer is committed to documenting this journey by delivering trusted journalism, industry intelligence, and meaningful insights that help readers understand the technologies, policies, investments, and innovations shaping a sustainable future.
  </p>
  <p className="text-lg font-semibold max-w-2xl mx-auto">

@@ -24,10 +24,10 @@ export default function TrendingPage() {
  <FadeIn>
  <div className="mb-12 border-b pb-8 flex items-center justify-between">
  <div>
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary flex items-center gap-4">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary flex items-center gap-4">
  Trending <TrendingUp className="w-10 h-10 text-accent" />
  </h1>
- <p className="text-xl text-muted-foreground max-w-2xl">
+ <p className="text-base text-muted-foreground max-w-2xl">
  The most-read stories across global markets right now.
  </p>
  </div>
@@ -49,7 +49,7 @@ export default function TrendingPage() {
  <span className="text-xs font-bold text-secondary uppercase tracking-wider">{article.category}</span>
  <span className="flex items-center text-xs text-muted-foreground"><Clock className="w-3 h-3 mr-1" /> {article.time}</span>
  </div>
- <h3 className="text-xl font-bold group-hover:text-primary transition-colors pr-8 relative text-foreground">
+ <h3 className="text-base font-bold group-hover:text-primary transition-colors pr-8 relative text-foreground">
  {article.title}
  <ArrowUpRight className="absolute right-0 top-1 w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
  </h3>
@@ -61,7 +61,7 @@ export default function TrendingPage() {
 
  <div className="lg:col-span-1">
  <FadeIn delay={0.4} className="bg-background border p-8 sticky top-24">
- <h3 className="font-bold text-xl mb-6 border-b pb-4 text-foreground">Hot Topics</h3>
+ <h3 className="font-bold text-base mb-6 border-b pb-4 text-foreground">Hot Topics</h3>
  <div className="flex flex-wrap gap-2">
  {['#GridStorage', '#IRA', '#OffshoreWind', '#GreenHydrogen', '#CarbonTax', '#SupplyChain', '#ProjectFinance'].map(tag => (
  <Link key={tag} href="#" className="bg-background border-y border-border hover:bg-primary hover:text-primary-foreground text-foreground px-4 py-2 text-sm font-semibold transition-colors">

@@ -11,8 +11,8 @@ export default function AdvertiseWithUsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-16 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-primary">Advertise With Us</h1>
- <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-6 text-primary">Advertise With Us</h1>
+ <p className="text-base text-muted-foreground leading-relaxed font-medium">
  Reach decision-makers and professionals actively engaged in the clean energy transition.
  </p>
  </div>
@@ -41,7 +41,7 @@ export default function AdvertiseWithUsPage() {
  <h2 className="text-3xl font-bold mb-6 text-foreground">Why Advertise With Renewable Observer</h2>
  <p className="text-muted-foreground mb-6">Renewable Observer attracts readers actively seeking information related to renewable energy technologies, market developments, policy changes, sustainability initiatives, and clean energy investments.</p>
  
- <h3 className="text-xl font-bold mb-4 text-foreground">Our audience includes:</h3>
+ <h3 className="text-base font-bold mb-4 text-foreground">Our audience includes:</h3>
  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm font-medium text-muted-foreground">
  <ul className="space-y-2 list-disc pl-5">
  <li>Renewable Energy Developers</li>
@@ -72,15 +72,15 @@ export default function AdvertiseWithUsPage() {
  <h2 className="text-3xl font-bold text-foreground">Our Audience</h2>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  <div>
- <h3 className="text-xl font-bold mb-2 text-primary">Renewable Energy Industry Professionals</h3>
+ <h3 className="text-base font-bold mb-2 text-primary">Renewable Energy Industry Professionals</h3>
  <p className="text-sm text-muted-foreground mb-4">Industry professionals regularly visit Renewable Observer to stay informed about Solar, Wind, Green Hydrogen, Energy Storage, Policies, and Sustainability Trends.</p>
- <h3 className="text-xl font-bold mb-2 text-primary">Business Decision Makers</h3>
+ <h3 className="text-base font-bold mb-2 text-primary">Business Decision Makers</h3>
  <p className="text-sm text-muted-foreground">Executives, investors, project developers, and business leaders rely on industry intelligence to make strategic decisions.</p>
  </div>
  <div>
- <h3 className="text-xl font-bold mb-2 text-primary">Policymakers and Government Agencies</h3>
+ <h3 className="text-base font-bold mb-2 text-primary">Policymakers and Government Agencies</h3>
  <p className="text-sm text-muted-foreground mb-4">Government organizations and policymakers monitor renewable energy developments, regulatory changes, and market trends.</p>
- <h3 className="text-xl font-bold mb-2 text-primary">Researchers and Academics</h3>
+ <h3 className="text-base font-bold mb-2 text-primary">Researchers and Academics</h3>
  <p className="text-sm text-muted-foreground">Renewable Observer provides insights that support research, innovation, and knowledge development across renewable energy disciplines.</p>
  </div>
  </div>
@@ -94,7 +94,7 @@ export default function AdvertiseWithUsPage() {
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  <div className="bg-background border p-6 hover:border-primary/50 transition-colors">
- <h3 className="text-xl font-bold mb-3 text-foreground">Display Advertising</h3>
+ <h3 className="text-base font-bold mb-3 text-foreground">Display Advertising</h3>
  <p className="text-sm text-muted-foreground mb-4">Display advertising provides visibility across key areas of the platform and helps organizations increase brand awareness among industry professionals and decision-makers.</p>
  <ul className="text-sm font-medium space-y-1 list-disc pl-5">
  <li>Homepage Banner Advertising</li>
@@ -105,7 +105,7 @@ export default function AdvertiseWithUsPage() {
  </div>
 
  <div className="bg-background border p-6 hover:border-primary/50 transition-colors">
- <h3 className="text-xl font-bold mb-3 text-foreground">Sponsored Content</h3>
+ <h3 className="text-base font-bold mb-3 text-foreground">Sponsored Content</h3>
  <p className="text-sm text-muted-foreground mb-4">Sponsored content enables organizations to communicate valuable information through educational and informative content. All sponsored content is clearly identified to maintain transparency.</p>
  <ul className="text-sm font-medium space-y-1 list-disc pl-5">
  <li>Industry Insights & Thought Leadership</li>
@@ -116,7 +116,7 @@ export default function AdvertiseWithUsPage() {
  </div>
 
  <div className="bg-background border p-6 hover:border-primary/50 transition-colors">
- <h3 className="text-xl font-bold mb-3 text-foreground">Newsletter Sponsorships</h3>
+ <h3 className="text-base font-bold mb-3 text-foreground">Newsletter Sponsorships</h3>
  <p className="text-sm text-muted-foreground mb-4">Renewable Observer newsletters provide direct access to subscribers interested in renewable energy news and industry developments. Newsletter marketing reaches highly engaged audiences.</p>
  <ul className="text-sm font-medium space-y-1 list-disc pl-5">
  <li>Sponsored Headlines</li>
@@ -127,7 +127,7 @@ export default function AdvertiseWithUsPage() {
  </div>
 
  <div className="bg-background border p-6 hover:border-primary/50 transition-colors">
- <h3 className="text-xl font-bold mb-3 text-foreground">Event Promotion</h3>
+ <h3 className="text-base font-bold mb-3 text-foreground">Event Promotion</h3>
  <p className="text-sm text-muted-foreground mb-4">We actively support renewable energy conferences, webinars, exhibitions, forums, and awards programs. Event promotion packages may include editorial coverage, website visibility, and digital advertising.</p>
  <ul className="text-sm font-medium space-y-1 list-disc pl-5">
  <li>Conferences & Trade Shows</li>
@@ -160,7 +160,7 @@ export default function AdvertiseWithUsPage() {
  <h2 className="text-3xl font-bold text-foreground">Campaign Objectives</h2>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  <div className="bg-background border-y border-border p-8 ">
- <h3 className="text-xl font-bold mb-4">Brand Awareness Opportunities</h3>
+ <h3 className="text-base font-bold mb-4">Brand Awareness Opportunities</h3>
  <p className="text-sm text-muted-foreground mb-4">Renewable Observer helps organizations strengthen their industry presence through targeted brand awareness campaigns.</p>
  <ul className="text-sm font-medium list-disc pl-5 space-y-1">
  <li>Increased Visibility & Industry Recognition</li>
@@ -170,7 +170,7 @@ export default function AdvertiseWithUsPage() {
  </ul>
  </div>
  <div className="bg-background border-y border-border p-8 ">
- <h3 className="text-xl font-bold mb-4">Lead Generation Programs</h3>
+ <h3 className="text-base font-bold mb-4">Lead Generation Programs</h3>
  <p className="text-sm text-muted-foreground mb-4">Organizations seeking measurable business outcomes can leverage lead generation opportunities to identify and engage qualified prospects.</p>
  <ul className="text-sm font-medium list-disc pl-5 space-y-1">
  <li>Sponsored Reports & Whitepapers</li>
@@ -228,7 +228,7 @@ export default function AdvertiseWithUsPage() {
  <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
  Renewable Observer believes that collaboration, innovation, and knowledge sharing are essential to accelerating the global energy transition. By partnering with Renewable Observer, organizations can engage with a highly relevant audience while supporting informed discussions about renewable energy, sustainability, climate innovation, and the future of clean energy.
  </p>
- <p className="text-xl font-bold text-accent">We look forward to working with organizations that share our commitment to a sustainable future.</p>
+ <p className="text-base font-bold text-accent">We look forward to working with organizations that share our commitment to a sustainable future.</p>
  </div>
  </FadeIn>
  </div>

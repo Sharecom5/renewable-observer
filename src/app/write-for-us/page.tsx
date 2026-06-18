@@ -11,7 +11,7 @@ export default function WriteForUsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Write For Us</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Write For Us</h1>
  <p className="text-lg text-muted-foreground font-medium">Share your expertise and build topical authority with our global audience</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function WriteForUsPage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is committed to elevating the voices of industry leaders, engineers, analysts, and sustainability advocates. If you have unique insights, deep technical knowledge, or a strong perspective on the clean energy transition, we want to hear from you.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is committed to elevating the voices of industry leaders, engineers, analysts, and sustainability advocates. If you have unique insights, deep technical knowledge, or a strong perspective on the clean energy transition, we want to hear from you.</p>
  </section>
 
  <section>
@@ -60,7 +60,7 @@ export default function WriteForUsPage() {
  <p className="text-muted-foreground mb-6">Send your pitch and a brief bio (or LinkedIn link) to our editorial team:</p>
  <div>
  <strong className="block text-sm uppercase tracking-wider text-muted-foreground mb-1">Editorial Desk</strong>
- <a href="mailto:editor@renewableobserver.com" className="text-xl font-bold text-secondary hover:underline">editor@renewableobserver.com</a>
+ <a href="mailto:editor@renewableobserver.com" className="text-base font-bold text-secondary hover:underline">editor@renewableobserver.com</a>
  </div>
  <p className="mt-4 text-sm">Please use the subject line: <strong>GUEST PITCH: [Proposed Headline]</strong></p>
  <p className="mt-6 text-sm text-muted-foreground">Due to high email volume, we will only respond to pitches that are a strong fit for our editorial calendar. If you do not hear back within 7 days, feel free to pitch your idea elsewhere.</p>

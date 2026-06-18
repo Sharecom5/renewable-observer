@@ -11,7 +11,7 @@ export default function TermsAndConditionsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Terms & Conditions</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Terms & Conditions</h1>
  <p className="text-lg text-muted-foreground font-medium">Last Updated: June 2026</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function TermsAndConditionsPage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">Welcome to Renewable Observer.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Welcome to Renewable Observer.</p>
  <p>These Terms & Conditions govern your access to and use of Renewable Observer, including our website, content, newsletters, reports, industry insights, events information, and related services.</p>
  <p>By accessing, browsing, or using Renewable Observer, you agree to comply with these Terms & Conditions. If you do not agree with any part of these terms, you should discontinue use of the website.</p>
  <p>Renewable Observer is a renewable energy media company headquartered in Noida, India and serving a global audience. Our platform provides renewable energy news, sustainability insights, market intelligence, research content, industry analysis, and educational information covering the global clean energy sector.</p>

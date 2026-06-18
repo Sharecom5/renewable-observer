@@ -11,8 +11,8 @@ export default function ContactUsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-16 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-primary">Contact Us</h1>
- <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-6 text-primary">Contact Us</h1>
+ <p className="text-base text-muted-foreground leading-relaxed font-medium">
  Thank you for your interest in Renewable Observer.
  </p>
  </div>
@@ -242,11 +242,11 @@ export default function ContactUsPage() {
  <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12 mb-8">
  <div>
  <span className="block text-sm text-muted-foreground font-semibold uppercase tracking-wider mb-2">General Contact</span>
- <a href="mailto:hello@renewableobserver.com" className="text-xl font-bold text-primary hover:underline">hello@renewableobserver.com</a>
+ <a href="mailto:hello@renewableobserver.com" className="text-base font-bold text-primary hover:underline">hello@renewableobserver.com</a>
  </div>
  <div>
  <span className="block text-sm text-muted-foreground font-semibold uppercase tracking-wider mb-2">Editorial Contact</span>
- <a href="mailto:editor@renewableobserver.com" className="text-xl font-bold text-secondary hover:underline">editor@renewableobserver.com</a>
+ <a href="mailto:editor@renewableobserver.com" className="text-base font-bold text-secondary hover:underline">editor@renewableobserver.com</a>
  </div>
  </div>
  <p className="font-semibold text-foreground">

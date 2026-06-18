@@ -11,7 +11,7 @@ export default function AccessibilityPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Accessibility Statement</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Accessibility Statement</h1>
  <p className="text-lg text-muted-foreground font-medium">Our Commitment to Inclusive Design</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function AccessibilityPage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is committed to making our digital platform accessible and inclusive to everyone, regardless of ability or technology.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is committed to making our digital platform accessible and inclusive to everyone, regardless of ability or technology.</p>
  <p>As a global media company reporting on the future of energy, we believe that access to crucial industry information, market intelligence, and educational content should be universally available. We are continuously working to improve the user experience for all our readers and applying the relevant accessibility standards.</p>
  </section>
 

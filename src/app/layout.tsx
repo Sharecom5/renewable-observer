@@ -23,6 +23,22 @@ export const metadata: Metadata = {
  keywords: ["Renewable Energy", "Solar News", "Wind Energy", "Green Hydrogen", "Energy Finance"],
 };
 
+function decodeHtml(html: string) {
+  return html
+    .replace(/&#8220;/g, '“')
+    .replace(/&#8221;/g, '”')
+    .replace(/&#8216;/g, '‘')
+    .replace(/&#8217;/g, '’')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/&amp;/g, '&')
+    .replace(/&#038;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
 export default async function RootLayout({
  children,
 }: Readonly<{
@@ -30,7 +46,7 @@ export default async function RootLayout({
 }>) {
   const latestPosts = await getPosts(1);
   const latestPost = latestPosts?.[0];
-  const breakingNewsText = latestPost ? latestPost.title.rendered : "Global renewable capacity additions set to double by 2030, new IEA report reveals.";
+  const breakingNewsText = latestPost ? decodeHtml(latestPost.title.rendered) : "Global renewable capacity additions set to double by 2030, new IEA report reveals.";
   const breakingNewsLink = latestPost ? `/${latestPost.slug}` : "#";
 
  return (

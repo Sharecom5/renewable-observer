@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 
 interface NewsCardProps {
   post: Post;
-  variant?: "default" | "featured" | "compact" | "textOnly" | "overlay";
+  variant?: "default" | "featured" | "compact" | "textOnly" | "overlay" | "thumbnailLeft";
 }
 
 export function NewsCard({ post, variant = "default" }: NewsCardProps) {
@@ -16,6 +16,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
   const isFeatured = variant === "featured";
   const isCompact = variant === "compact";
   const isTextOnly = variant === "textOnly";
+  const isThumbnailLeft = variant === "thumbnailLeft";
   const category = post.category_info?.[0];
   const displayCategory = category?.name === "Uncategorized" || !category?.name ? "Daily Updates" : category.name;
 
@@ -53,7 +54,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
             </p>
           )}
           <h2 
-            className="font-serif font-bold text-white text-xl sm:text-2xl md:text-3xl leading-[1.2] mb-3 drop-shadow-lg group-hover:text-white/90 transition-colors"
+            className="font-bold text-white text-base sm:text-2xl md:text-3xl leading-[1.2] mb-3 drop-shadow-lg group-hover:text-white/90 transition-colors"
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
           <div className="flex items-center gap-3 text-xs text-white/80 uppercase tracking-wider font-semibold drop-shadow-md">
@@ -75,7 +76,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
             <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{displayCategory}</p>
           )}
           <h3 
-            className="font-semibold font-serif text-xs leading-snug group-hover:text-primary transition-colors text-foreground line-clamp-3"
+            className="font-semibold text-xs leading-snug group-hover:text-primary transition-colors text-foreground line-clamp-3"
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
           <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-1">
@@ -98,7 +99,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
               <p className="text-xs font-bold text-primary uppercase tracking-widest">{displayCategory}</p>
             )}
             <h3 
-              className="font-semibold font-serif text-sm leading-tight group-hover:text-primary transition-colors text-foreground"
+              className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors text-foreground"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
             <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
@@ -117,6 +118,39 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
               />
             </div>
           )}
+        </Link>
+      </motion.div>
+    )
+  }
+
+  if (isThumbnailLeft) {
+    return (
+      <motion.div 
+        whileHover={{ x: 4 }}
+        className="border-b border-border/50 last:border-b-0 overflow-hidden bg-transparent group py-3"
+      >
+        <Link href={`/${post.slug}`} className="flex gap-3 items-center">
+          {post.featured_image_url && (
+            <div className="relative w-24 h-16 shrink-0 overflow-hidden rounded border border-border shadow-sm">
+              <Image 
+                src={post.featured_image_url} 
+                alt={post.title.rendered} 
+                fill 
+                sizes="96px"
+                unoptimized={true}
+                className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
+              />
+            </div>
+          )}
+          <div className="flex-1 space-y-1">
+            <h3 
+              className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors text-foreground line-clamp-3"
+              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+            />
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+              {formatDistanceToNow(new Date(post.date), { addSuffix: true })}
+            </p>
+          </div>
         </Link>
       </motion.div>
     )
@@ -151,14 +185,14 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
         )}
         <Link href={`/${post.slug}`}>
           <h2 
-            className={`font-serif font-semibold group-hover:text-primary transition-colors text-foreground mb-1.5 ${isFeatured ? 'text-base md:text-lg leading-[1.3] tracking-tight' : 'text-sm leading-snug line-clamp-3'}`}
+            className={`font-semibold group-hover:text-primary transition-colors text-foreground mb-1.5 ${isFeatured ? 'text-base md:text-lg leading-[1.3] tracking-tight' : 'text-sm leading-snug line-clamp-3'}`}
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
         </Link>
         
         {isFeatured && (
           <div 
-            className="text-foreground/80 mb-2 font-serif text-xs leading-relaxed line-clamp-2"
+            className="text-foreground/80 mb-2 text-xs leading-relaxed line-clamp-2"
             dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
           />
         )}

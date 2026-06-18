@@ -11,7 +11,7 @@ export default function EthicsPolicyPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Ethics Policy</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Ethics Policy</h1>
  <p className="text-lg text-muted-foreground font-medium">Our Standards for Independent, Trustworthy Journalism</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function EthicsPolicyPage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is dedicated to providing independent, unbiased, and authoritative reporting on the global clean energy transition.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is dedicated to providing independent, unbiased, and authoritative reporting on the global clean energy transition.</p>
  <p>To maintain the trust of our readers—which include industry professionals, policymakers, and investors—our editorial team operates under a strict code of ethics. This policy outlines our standards for independence, conflict of interest management, transparency, and source protection.</p>
  </section>
 

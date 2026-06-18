@@ -10,8 +10,8 @@ export function Footer() {
           {/* Logo & Newsletter */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <span className="text-xl font-bold tracking-tighter text-primary">Renewable</span>
-              <span className="text-xl font-light tracking-tighter text-foreground">Observer</span>
+              <span className="text-base font-bold tracking-tighter text-primary">Renewable</span>
+              <span className="text-base font-light tracking-tighter text-foreground">Observer</span>
             </Link>
             <p className="text-sm mb-8 max-w-sm leading-relaxed">
               Your trusted source for the latest news, market intelligence, and insights in the global renewable energy sector.

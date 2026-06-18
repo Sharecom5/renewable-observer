@@ -11,8 +11,8 @@ export default function EditorialPolicyPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-16 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-primary">Editorial Policy</h1>
- <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-6 text-primary">Editorial Policy</h1>
+ <p className="text-base text-muted-foreground leading-relaxed font-medium">
  At Renewable Observer, editorial integrity is the foundation of everything we publish.
  </p>
  </div>
@@ -129,21 +129,21 @@ export default function EditorialPolicyPage() {
  <p>Renewable Observer maintains strict editorial independence. Editorial decisions are made based on: Newsworthiness, Relevance, Public interest, Industry significance, and Informational value.</p>
  <p>Editorial content is not influenced by: Advertisers, Sponsors, Business Partners, Political Organizations, Government Agencies, or Special Interest Groups. Our commitment to independence helps ensure credibility and reader trust.</p>
  
- <h3 className="text-xl font-bold text-foreground mt-8">Transparency</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Transparency</h3>
  <p>Transparency is essential to responsible journalism. Renewable Observer aims to clearly distinguish between: Editorial Content, Sponsored Content, Advertising, Opinion Pieces, and Press Releases. Readers should always be able to understand the nature and purpose of the content they are viewing.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Sponsored Content Policy</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Sponsored Content Policy</h3>
  <p>Renewable Observer may publish sponsored content, promotional articles, industry features, and partner-supported materials. To maintain transparency: Sponsored content will be clearly identified, Promotional content will be appropriately disclosed, and Advertising relationships will not influence editorial decisions.</p>
  <p>Sponsored content allows organizations to communicate valuable information while maintaining transparency for readers. For sponsorship opportunities, readers can visit our <Link href="/advertise-with-us" className="text-primary hover:underline">Advertise With Us page</Link>.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Press Releases</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Press Releases</h3>
  <p>Renewable Observer regularly receives press releases from companies, government agencies, research organizations, industry associations, and technology providers. Press releases may be: Published as submitted, Edited for clarity, Used as sources for broader reporting, or Incorporated into industry coverage.</p>
  <p>Publication of a press release does not imply endorsement of the organization, product, service, or claims being presented.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Opinions and Commentary</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Opinions and Commentary</h3>
  <p>Opinion articles play an important role in encouraging discussion and knowledge sharing. Opinion content may include: Expert Commentary, Industry Perspectives, Guest Articles, Leadership Views, and Market Analysis. Opinions expressed by contributors belong solely to the authors and do not necessarily represent the views of Renewable Observer. Opinion content will generally be identified appropriately.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Corrections Policy</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Corrections Policy</h3>
  <p>Renewable Observer is committed to correcting factual errors when identified. If inaccuracies are discovered, we may: Update content, Clarify information, Correct factual mistakes, or Add explanatory notes. Readers are encouraged to report potential errors by contacting: <a href="mailto:editor@renewableobserver.com" className="text-secondary font-bold hover:underline">editor@renewableobserver.com</a>.</p>
  </section>
  </FadeIn>

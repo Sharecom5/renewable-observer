@@ -11,7 +11,7 @@ export default function CookiePolicyPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Cookie Policy</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Cookie Policy</h1>
  <p className="text-lg text-muted-foreground font-medium">Last Updated: June 2026</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function CookiePolicyPage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">This Cookie Policy explains how Renewable Observer uses cookies and similar tracking technologies when you visit our website.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">This Cookie Policy explains how Renewable Observer uses cookies and similar tracking technologies when you visit our website.</p>
  <p>It explains what these technologies are, why we use them, and your rights to control our use of them. This policy should be read in conjunction with our <Link href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>.</p>
  </section>
 
@@ -34,7 +34,7 @@ export default function CookiePolicyPage() {
  <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Why Do We Use Cookies?</h2>
  <p>We use first-party and third-party cookies for several reasons. Some cookies are required for technical reasons in order for our website to operate—we refer to these as "essential" or "strictly necessary" cookies. Other cookies enable us to track and target the interests of our users to enhance the experience on our site and to deliver relevant advertising.</p>
  
- <h3 className="text-xl font-bold text-foreground mt-6 mb-2">Types of Cookies We Use</h3>
+ <h3 className="text-base font-bold text-foreground mt-6 mb-2">Types of Cookies We Use</h3>
  <ul className="list-disc pl-5 space-y-4">
  <li>
  <strong>Essential Cookies:</strong> These cookies are strictly necessary to provide you with services available through our website and to use some of its features, such as access to secure areas.

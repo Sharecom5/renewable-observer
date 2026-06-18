@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Privacy Policy</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Privacy Policy</h1>
  <p className="text-lg text-muted-foreground font-medium">Last Updated: June 2026</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function PrivacyPolicyPage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">Welcome to Renewable Observer.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Welcome to Renewable Observer.</p>
  <p>Your privacy is important to us. This Privacy Policy explains how Renewable Observer collects, uses, stores, protects, and manages information when visitors access our website, subscribe to newsletters, submit inquiries, engage with our content, or interact with our services.</p>
  <p>Renewable Observer is committed to maintaining transparency regarding our privacy practices and ensuring that personal information is handled responsibly.</p>
  <p>Headquartered in Noida, India and serving a global audience, Renewable Observer provides renewable energy news, market intelligence, sustainability insights, research content, industry analysis, and educational resources for readers worldwide.</p>
@@ -37,11 +37,11 @@ export default function PrivacyPolicyPage() {
  <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Information We Collect</h2>
  <p>Information may be collected in several ways.</p>
  
- <h3 className="text-xl font-bold text-foreground mt-6 mb-2">Information You Provide</h3>
+ <h3 className="text-base font-bold text-foreground mt-6 mb-2">Information You Provide</h3>
  <p>You may voluntarily provide information when: Contacting us, Submitting inquiries, Subscribing to newsletters, Requesting reports, Participating in surveys, Submitting press releases, Exploring partnership opportunities, or Advertising with Renewable Observer.</p>
  <p>Information provided may include: Name, Email Address, Company Name, Job Title, Country or Region, Business Information, and Messages or Inquiries. Providing personal information is generally voluntary.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-6 mb-2">Automatically Collected Information</h3>
+ <h3 className="text-base font-bold text-foreground mt-6 mb-2">Automatically Collected Information</h3>
  <p>When users visit Renewable Observer, certain technical information may be collected automatically. This information may include: IP Address, Browser Type, Device Information, Operating System, Referring Website, Pages Viewed, Session Duration, Traffic Sources, Geographic Region, and Website Usage Data.</p>
  <p>This information helps us understand how visitors interact with the website and supports ongoing improvements.</p>
  </section>
@@ -77,7 +77,7 @@ export default function PrivacyPolicyPage() {
  <p>Renewable Observer may work with third-party service providers and advertising partners. These providers may assist with: Website Analytics, Advertising Services, Email Distribution, Performance Monitoring, and Security Services.</p>
  <p>Third-party providers may operate under their own privacy policies. Users are encouraged to review those policies when interacting with external services.</p>
  
- <h3 className="text-xl font-bold text-foreground mt-6 mb-2">Google AdSense and Advertising</h3>
+ <h3 className="text-base font-bold text-foreground mt-6 mb-2">Google AdSense and Advertising</h3>
  <p>Renewable Observer may display advertisements through advertising networks including Google AdSense. Advertising providers may use cookies and related technologies to deliver advertisements that may be relevant to users. These technologies may collect information regarding website interactions and browsing behavior.</p>
  <p>Users can manage advertising preferences through settings provided by advertising platforms. For additional information regarding advertising technologies, users should review the privacy policies of the relevant service providers.</p>
  </section>

@@ -109,7 +109,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
               </span>
             )}
             <h1 
-              className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15] mb-6 text-foreground font-serif"
+              className="text-2xl md:text-3xl font-semibold tracking-tight leading-[1.15] mb-6 text-foreground"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
             
@@ -166,7 +166,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
 
           {toc.length > 0 && (
             <div className="mb-12 p-8 bg-card/50 backdrop-blur-md border border-white/10 shadow-lg rounded-2xl">
-              <h2 className="font-semibold font-serif text-lg mb-4 text-foreground flex items-center gap-2">
+              <h2 className="font-semibold text-lg mb-4 text-foreground flex items-center gap-2">
                 <span className="h-5 w-1 bg-primary rounded-full"></span>
                 Table of Contents
               </h2>
@@ -182,7 +182,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
           )}
 
           <div 
-            className="prose prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-none text-foreground/90 prose-headings:font-semibold prose-headings:font-serif prose-headings:tracking-tight prose-a:text-primary hover:prose-a:underline prose-p:font-serif prose-p:leading-[1.7] prose-img:rounded-xl prose-img:border prose-img:border-border/50 prose-img:shadow-md"
+            className="prose prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-none text-foreground/90 prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-primary hover:prose-a:underline prose-p:leading-[1.7] prose-img:rounded-xl prose-img:border prose-img:border-border/50 prose-img:shadow-md"
             dangerouslySetInnerHTML={{ __html: post.content.rendered }}
           />
           
@@ -193,7 +193,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
           {/* Read Next / Related Articles */}
           {relatedPosts && relatedPosts.length > 1 && (
             <div className="mb-12 border-t-2 border-border/60 pt-8 mt-12">
-              <h3 className="font-bold text-2xl font-serif text-foreground mb-8 flex items-center gap-3">
+              <h3 className="font-bold text-2xl text-foreground mb-8 flex items-center gap-3">
                 <span className="w-1.5 h-6 bg-primary rounded-sm"></span>
                 Read Next
               </h3>
@@ -220,7 +220,7 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
                   </div>
                   <Link href={`/${relatedPost.slug}`} className="block">
                     <h4 
-                      className="font-bold font-serif text-lg leading-tight group-hover:text-primary transition-colors"
+                      className="font-bold text-lg leading-tight group-hover:text-primary transition-colors"
                       dangerouslySetInnerHTML={{ __html: relatedPost.title.rendered }}
                     />
                   </Link>

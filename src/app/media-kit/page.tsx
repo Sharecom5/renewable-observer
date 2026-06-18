@@ -12,7 +12,7 @@ export default function MediaKitPage() {
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
  <span className="inline-block px-3 py-1 bg-accent/20 text-accent-foreground font-semibold text-sm mb-4">Partner With Us</span>
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Media Kit</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Media Kit</h1>
  <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Connect your brand with the world's leading professionals driving the renewable energy transition.</p>
  </div>
  </FadeIn>
@@ -74,7 +74,7 @@ export default function MediaKitPage() {
  <svg xmlns="http://www.w3.org/.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
  </div>
  <div>
- <h3 className="text-xl font-bold text-foreground mb-2">Display Advertising</h3>
+ <h3 className="text-base font-bold text-foreground mb-2">Display Advertising</h3>
  <p className="text-sm text-muted-foreground mb-4">Premium ad placements across our homepage, category hubs, and article pages. We offer standard IAB sizes including 728x90 leaderboards, 300x250 medium rectangles, and 970x250 billboards.</p>
  </div>
  </div>
@@ -84,7 +84,7 @@ export default function MediaKitPage() {
  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8l-4 4v14a2 2 0 0 0 2 2z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z"/></svg>
  </div>
  <div>
- <h3 className="text-xl font-bold text-foreground mb-2">Sponsored Content (Native Ads)</h3>
+ <h3 className="text-base font-bold text-foreground mb-2">Sponsored Content (Native Ads)</h3>
  <p className="text-sm text-muted-foreground mb-4">Publish thought leadership articles, case studies, and whitepapers natively on our platform. Sponsored content integrates seamlessly into our news feed and provides deep engagement.</p>
  </div>
  </div>
@@ -94,7 +94,7 @@ export default function MediaKitPage() {
  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
  </div>
  <div>
- <h3 className="text-xl font-bold text-foreground mb-2">Newsletter Sponsorships</h3>
+ <h3 className="text-base font-bold text-foreground mb-2">Newsletter Sponsorships</h3>
  <p className="text-sm text-muted-foreground mb-4">Reach our highly engaged daily email subscribers directly in their inbox. Options include exclusive banner sponsorships, featured text placements, and dedicated email blasts.</p>
  </div>
  </div>

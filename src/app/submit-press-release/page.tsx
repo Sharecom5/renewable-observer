@@ -11,7 +11,7 @@ export default function SubmitPressReleasePage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-12 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Submit a Press Release</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Submit a Press Release</h1>
  <p className="text-lg text-muted-foreground font-medium">Amplify your announcements to the global clean energy ecosystem</p>
  </div>
  </FadeIn>
@@ -20,7 +20,7 @@ export default function SubmitPressReleasePage() {
  <FadeIn delay={0.1}>
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
- <p className="text-xl leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is a leading destination for news, market intelligence, and industry updates across the renewable energy sector. We welcome press releases from companies, agencies, and organizations driving the global energy transition.</p>
+ <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is a leading destination for news, market intelligence, and industry updates across the renewable energy sector. We welcome press releases from companies, agencies, and organizations driving the global energy transition.</p>
  </section>
 
  <section className="bg-background border-y border-border p-8 border">
@@ -76,7 +76,7 @@ export default function SubmitPressReleasePage() {
  <p className="text-muted-foreground mb-6">Please email your press releases and media alerts directly to our news desk:</p>
  <div>
  <strong className="block text-sm uppercase tracking-wider text-muted-foreground mb-1">Press Desk</strong>
- <a href="mailto:press@renewableobserver.com" className="text-xl font-bold text-primary hover:underline">press@renewableobserver.com</a>
+ <a href="mailto:press@renewableobserver.com" className="text-base font-bold text-primary hover:underline">press@renewableobserver.com</a>
  </div>
  <p className="mt-6 text-sm">For guaranteed placement, featured corporate profiles, or extensive media campaigns, please refer to our <Link href="/advertise-with-us" className="text-secondary hover:underline font-bold">Advertising Options</Link>.</p>
  </section>

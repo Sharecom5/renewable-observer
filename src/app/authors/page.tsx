@@ -11,8 +11,8 @@ export default function AuthorsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="max-w-4xl mx-auto mb-16 text-center">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-primary">Authors & Contributors</h1>
- <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-6 text-primary">Authors & Contributors</h1>
+ <p className="text-base text-muted-foreground leading-relaxed font-medium">
  Credible journalism begins with knowledgeable contributors and industry experts.
  </p>
  </div>
@@ -141,11 +141,11 @@ export default function AuthorsPage() {
  <p>Editorial review may include: Fact Verification, Source Evaluation, Content Editing, Technical Review, and Quality Assurance.</p>
  <p>Additional information regarding editorial standards can be found in our <Link href="/editorial-policy" className="text-primary hover:underline">Editorial Policy</Link>.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Contributor Standards</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Contributor Standards</h3>
  <p>All contributors are expected to follow professional publishing standards. Contributors are encouraged to: Provide accurate information, Use reliable sources, Maintain transparency, Avoid conflicts of interest, Respect intellectual property rights, and Support factual reporting.</p>
  <p>These standards help maintain the trust of our readers and industry stakeholders.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Guest Contributors</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Guest Contributors</h3>
  <p>Renewable Observer welcomes contributions from qualified professionals and industry experts. Guest contributions may include: Industry Insights, Opinion Articles, Research Summaries, Technology Perspectives, Sustainability Commentary, and Market Analysis.</p>
  <p>All guest submissions are subject to editorial review. Publication decisions are based on: Relevance, Accuracy, Quality, and Reader Value. Submission does not guarantee publication.</p>
  </section>
@@ -157,10 +157,10 @@ export default function AuthorsPage() {
  <p>Renewable Observer believes that industry knowledge sharing contributes to innovation and progress. We encourage thought leadership content that helps readers understand: Emerging Technologies, Market Developments, Policy Changes, Sustainability Strategies, Industry Challenges, and Future Opportunities.</p>
  <p>Thought leadership content should be informative, evidence-based, and relevant to the renewable energy sector.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Commitment to Transparency</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Commitment to Transparency</h3>
  <p>Transparency is an important component of responsible publishing. Renewable Observer seeks to clearly distinguish between: Editorial Content, Sponsored Content, Opinion Pieces, Press Releases, and Advertising Materials. This helps readers understand the nature of the information being presented.</p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Diversity of Perspectives</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Diversity of Perspectives</h3>
  <p>The renewable energy industry is global, dynamic, and multidisciplinary. Renewable Observer values diverse perspectives and seeks to feature insights from contributors representing different regions, technologies, professional backgrounds, and areas of expertise. This approach helps readers gain a broader understanding of the renewable energy landscape.</p>
  </section>
  </FadeIn>
@@ -172,7 +172,7 @@ export default function AuthorsPage() {
  <p>Potential contributors may include: Industry Experts, Researchers, Consultants, Academics, Sustainability Professionals, Renewable Energy Executives, and Technical Specialists.</p>
  <p>Contribution opportunities may include: Articles, Commentary, Research Insights, Interviews, and Industry Perspectives. Editorial inquiries may be directed to: <a href="mailto:editor@renewableobserver.com" className="text-secondary font-bold hover:underline">editor@renewableobserver.com</a></p>
 
- <h3 className="text-xl font-bold text-foreground mt-8">Why Expertise Matters</h3>
+ <h3 className="text-base font-bold text-foreground mt-8">Why Expertise Matters</h3>
  <p>Renewable energy continues to evolve rapidly through technological innovation, policy developments, market expansion, and investment activity.</p>
  <p>Reliable information requires contributors who understand the complexities of: Energy Markets, Infrastructure Development, Sustainability Frameworks, Environmental Policy, Climate Technologies, and Financial Markets.</p>
  <p>Renewable Observer remains committed to working with knowledgeable contributors who help readers navigate this evolving landscape.</p>
@@ -209,7 +209,7 @@ export default function AuthorsPage() {
  <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
  We remain committed to delivering trustworthy renewable energy journalism, sustainability insights, market intelligence, and educational resources that support informed decision-making across the global clean energy sector.
  </p>
- <p className="text-xl font-bold text-accent">Thank you for reading Renewable Observer and supporting independent renewable energy media.</p>
+ <p className="text-base font-bold text-accent">Thank you for reading Renewable Observer and supporting independent renewable energy media.</p>
  </div>
  </FadeIn>
 

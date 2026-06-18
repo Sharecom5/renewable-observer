@@ -18,8 +18,8 @@ export default function ReportsPage() {
  <div className="container mx-auto px-4 py-16 min-h-screen">
  <FadeIn>
  <div className="mb-12 border-b pb-8">
- <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-primary">Industry Reports</h1>
- <p className="text-xl text-muted-foreground max-w-3xl">
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Industry Reports</h1>
+ <p className="text-base text-muted-foreground max-w-3xl">
  Deep-dive market analyses, investment guides, and policy briefs. Accessible to premium subscribers and registered institutional partners.
  </p>
  </div>
@@ -38,7 +38,7 @@ export default function ReportsPage() {
  <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-secondary mb-3">
  <FileText className="w-3 h-3" /> {report.type}
  </span>
- <h3 className="text-xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors">
+ <h3 className="text-base font-bold leading-tight mb-4 group-hover:text-primary transition-colors">
  {report.title}
  </h3>
  <p className="text-sm text-muted-foreground mb-6 line-clamp-3">
