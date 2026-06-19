@@ -4,6 +4,8 @@ const BASE_URL = 'https://www.renewableobserver.com';
 const PUBLICATION_NAME = 'Renewable Observer';
 const PUBLICATION_LANG = 'en';
 
+export const dynamic = 'force-dynamic'; // Force Next.js to always generate this live
+
 export async function GET() {
   try {
     // Google News Sitemaps should only contain articles published in the last 48 hours.

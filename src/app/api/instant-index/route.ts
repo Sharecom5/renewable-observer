@@ -58,13 +58,11 @@ export async function POST(req: NextRequest) {
       const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'); // Handle multiline env var
 
       if (clientEmail && privateKey) {
-        const jwtClient = new google.auth.JWT(
-          clientEmail,
-          undefined,
-          privateKey,
-          ['https://www.googleapis.com/auth/indexing'],
-          undefined
-        );
+        const jwtClient = new google.auth.JWT({
+          email: clientEmail,
+          key: privateKey,
+          scopes: ['https://www.googleapis.com/auth/indexing'],
+        });
 
         await jwtClient.authorize();
 

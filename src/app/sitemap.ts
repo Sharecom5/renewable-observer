@@ -3,6 +3,8 @@ import { getCategories, getPosts } from '@/lib/api';
 
 const BASE_URL = 'https://www.renewableobserver.com';
 
+export const revalidate = 0; // Force Next.js to always generate this live, never cache it
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static Routes
   const staticRoutes = [
