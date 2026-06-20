@@ -57,8 +57,26 @@ function SplitColumnCategory({ title, posts, slug, colorClass }: { title: string
   )
 }
 
+// Helper function to pad categories with generic news if they are empty
+function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength: number) {
+  if (primaryPosts.length >= minLength) return primaryPosts.slice(0, minLength);
+  
+  const result = [...primaryPosts];
+  const primaryIds = new Set(primaryPosts.map(p => p.id));
+  
+  for (const post of fallbackPosts) {
+    if (result.length >= minLength) break;
+    if (!primaryIds.has(post.id)) {
+      result.push(post);
+      primaryIds.add(post.id);
+    }
+  }
+  
+  return result;
+}
+
 export default async function Home() {
-  const allPosts = await getPosts(20)
+  const allPosts = await getPosts(30)
   
   if (!allPosts || allPosts.length === 0) {
     return (
@@ -68,11 +86,14 @@ export default async function Home() {
     )
   }
 
-  const solarPosts = await getPostsByCategorySlug('solar', 6)
-  const windPosts = await getPostsByCategorySlug('wind', 6)
-  const hydrogenPosts = await getPostsByCategorySlug('hydrogen', 5)
-  const marketPosts = await getPostsByCategorySlug('markets', 6)
-  const interviewPosts = await getPostsByCategorySlug('interview', 4)
+  // Use the fallback logic to guarantee the UI is always completely filled
+  const solarPosts = fillWithFallbacks(await getPostsByCategorySlug('solar', 5), allPosts, 5);
+  const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 6), allPosts, 6);
+  const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 5), allPosts, 5);
+  const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 5), allPosts, 5);
+  const interviewPosts = fillWithFallbacks(await getPostsByCategorySlug('interview', 3), allPosts, 3);
+  const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 3), allPosts, 3);
+  const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 3), allPosts, 3);
 
   const heroFeatured = allPosts[0]
   const heroList = allPosts.slice(1, 4)
@@ -130,17 +151,15 @@ export default async function Home() {
              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                <div className="flex flex-col">
                  <h2 className="text-lg font-bold uppercase tracking-wide text-foreground mb-4 pb-2 border-b-2 border-red-500">Interviews</h2>
-                 {interviewPosts.slice(0,3).map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
+                 {interviewPosts.map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
                </div>
                <div className="flex flex-col">
                  <h2 className="text-lg font-bold uppercase tracking-wide text-foreground mb-4 pb-2 border-b-2 border-teal-500">Storage</h2>
-                 {/* Reusing solar for mock data until they add storage posts */}
-                 {solarPosts.slice(2,5).map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
+                 {storagePosts.map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
                </div>
                <div className="flex flex-col">
                  <h2 className="text-lg font-bold uppercase tracking-wide text-foreground mb-4 pb-2 border-b-2 border-blue-400">EVs</h2>
-                 {/* Reusing wind for mock data until they add ev posts */}
-                 {windPosts.slice(2,5).map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
+                 {evPosts.map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
                </div>
              </div>
           </section>
