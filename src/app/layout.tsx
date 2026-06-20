@@ -15,12 +15,20 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
- title: {
- default: "Renewable Observer | Modern Renewable Energy News",
- template: "%s | Renewable Observer",
- },
- description: "Your trusted source for the latest news in renewable energy, solar, wind, green hydrogen, and market intelligence.",
- keywords: ["Renewable Energy", "Solar News", "Wind Energy", "Green Hydrogen", "Energy Finance"],
+  metadataBase: new URL("https://www.renewableobserver.com"),
+  title: {
+    default: "Renewable Observer | Modern Renewable Energy News",
+    template: "%s | Renewable Observer",
+  },
+  description: "Your trusted source for the latest news in renewable energy, solar, wind, green hydrogen, and market intelligence.",
+  keywords: ["Renewable Energy", "Solar News", "Wind Energy", "Green Hydrogen", "Energy Finance"],
+  openGraph: {
+    title: "Renewable Observer",
+    description: "Your trusted source for the latest news in renewable energy.",
+    siteName: "Renewable Observer",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 function decodeHtml(html: string) {
@@ -51,6 +59,19 @@ export default async function RootLayout({
 
  return (
  <html lang="en" suppressHydrationWarning className={`${inter.variable} h-full antialiased`}>
+  <head>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Renewable Observer",
+          "url": "https://www.renewableobserver.com/"
+        })
+      }}
+    />
+  </head>
   <body suppressHydrationWarning className="min-h-full flex flex-col font-sans bg-background selection:bg-primary/30 text-foreground relative">
   {/* Dynamic Background Gradients */}
   <div className="fixed inset-0 z-[-1] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.15),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.15),rgba(2,6,23,0))] pointer-events-none"></div>
