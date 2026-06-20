@@ -58,14 +58,14 @@ function SplitColumnCategory({ title, posts, slug, colorClass }: { title: string
 }
 
 // Helper function to pad categories with generic news while ensuring ZERO repetitions globally
-function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength: number, usedIds: Set<number>) {
+function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength: number, usedTitles: Set<string>) {
   const result = [];
   
   // First, take the actual category posts (if not already used)
   for (const post of primaryPosts) {
-    if (!usedIds.has(post.id)) {
+    if (!usedTitles.has(post.title.rendered)) {
       result.push(post);
-      usedIds.add(post.id);
+      usedTitles.add(post.title.rendered);
     }
     if (result.length >= minLength) break;
   }
@@ -73,9 +73,9 @@ function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength:
   // If we still need more to fill the section, borrow from global recent news (if not already used)
   if (result.length < minLength) {
     for (const post of fallbackPosts) {
-      if (!usedIds.has(post.id)) {
+      if (!usedTitles.has(post.title.rendered)) {
         result.push(post);
-        usedIds.add(post.id);
+        usedTitles.add(post.title.rendered);
       }
       if (result.length >= minLength) break;
     }
@@ -96,17 +96,18 @@ export default async function Home() {
   }
 
   // Global tracker to ensure an article NEVER appears twice on the homepage
-  const usedIds = new Set<number>();
+  // We use TITLES instead of IDs because the WP database has duplicate IDs for the same article!
+  const usedTitles = new Set<string>();
 
   // 1. Hero Section gets first pick of the newest 4 articles
   const heroFeatured = allPosts[0]
-  usedIds.add(heroFeatured.id);
+  usedTitles.add(heroFeatured.title.rendered);
   
   const heroList = [];
   for (const post of allPosts.slice(1)) {
-    if (!usedIds.has(post.id)) {
+    if (!usedTitles.has(post.title.rendered)) {
       heroList.push(post);
-      usedIds.add(post.id);
+      usedTitles.add(post.title.rendered);
     }
     if (heroList.length >= 3) break;
   }
@@ -114,21 +115,21 @@ export default async function Home() {
   // 2. Most Popular gets next pick (5 articles)
   const mostPopular = [];
   for (const post of allPosts) {
-    if (!usedIds.has(post.id)) {
+    if (!usedTitles.has(post.title.rendered)) {
       mostPopular.push(post);
-      usedIds.add(post.id);
+      usedTitles.add(post.title.rendered);
     }
     if (mostPopular.length >= 5) break;
   }
 
   // 3. Use the fallback logic to fill categories using ONLY unused posts
-  const solarPosts = fillWithFallbacks(await getPostsByCategorySlug('solar', 10), allPosts, 5, usedIds);
-  const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 10), allPosts, 6, usedIds);
-  const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 10), allPosts, 5, usedIds);
-  const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 10), allPosts, 5, usedIds);
-  const interviewPosts = fillWithFallbacks(await getPostsByCategorySlug('interview', 10), allPosts, 3, usedIds);
-  const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 10), allPosts, 3, usedIds);
-  const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 10), allPosts, 3, usedIds);
+  const solarPosts = fillWithFallbacks(await getPostsByCategorySlug('solar', 10), allPosts, 5, usedTitles);
+  const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 10), allPosts, 6, usedTitles);
+  const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 10), allPosts, 5, usedTitles);
+  const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 10), allPosts, 5, usedTitles);
+  const interviewPosts = fillWithFallbacks(await getPostsByCategorySlug('interview', 10), allPosts, 3, usedTitles);
+  const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 10), allPosts, 3, usedTitles);
+  const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 10), allPosts, 3, usedTitles);
 
   return (
     <div className="container mx-auto px-4 py-6 overflow-hidden max-w-[1280px]">
