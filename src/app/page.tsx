@@ -57,18 +57,27 @@ function SplitColumnCategory({ title, posts, slug, colorClass }: { title: string
   )
 }
 
-// Helper function to pad categories with generic news if they are empty
-function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength: number) {
-  if (primaryPosts.length >= minLength) return primaryPosts.slice(0, minLength);
+// Helper function to pad categories with generic news while ensuring ZERO repetitions globally
+function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength: number, usedIds: Set<number>) {
+  const result = [];
   
-  const result = [...primaryPosts];
-  const primaryIds = new Set(primaryPosts.map(p => p.id));
-  
-  for (const post of fallbackPosts) {
-    if (result.length >= minLength) break;
-    if (!primaryIds.has(post.id)) {
+  // First, take the actual category posts (if not already used)
+  for (const post of primaryPosts) {
+    if (!usedIds.has(post.id)) {
       result.push(post);
-      primaryIds.add(post.id);
+      usedIds.add(post.id);
+    }
+    if (result.length >= minLength) break;
+  }
+  
+  // If we still need more to fill the section, borrow from global recent news (if not already used)
+  if (result.length < minLength) {
+    for (const post of fallbackPosts) {
+      if (!usedIds.has(post.id)) {
+        result.push(post);
+        usedIds.add(post.id);
+      }
+      if (result.length >= minLength) break;
     }
   }
   
@@ -76,7 +85,7 @@ function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength:
 }
 
 export default async function Home() {
-  const allPosts = await getPosts(30)
+  const allPosts = await getPosts(100) // Fetch a lot of posts so we don't run out of unique ones
   
   if (!allPosts || allPosts.length === 0) {
     return (
@@ -86,18 +95,40 @@ export default async function Home() {
     )
   }
 
-  // Use the fallback logic to guarantee the UI is always completely filled
-  const solarPosts = fillWithFallbacks(await getPostsByCategorySlug('solar', 5), allPosts, 5);
-  const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 6), allPosts, 6);
-  const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 5), allPosts, 5);
-  const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 5), allPosts, 5);
-  const interviewPosts = fillWithFallbacks(await getPostsByCategorySlug('interview', 3), allPosts, 3);
-  const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 3), allPosts, 3);
-  const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 3), allPosts, 3);
+  // Global tracker to ensure an article NEVER appears twice on the homepage
+  const usedIds = new Set<number>();
 
+  // 1. Hero Section gets first pick of the newest 4 articles
   const heroFeatured = allPosts[0]
-  const heroList = allPosts.slice(1, 4)
-  const mostPopular = allPosts.slice(4, 9)
+  usedIds.add(heroFeatured.id);
+  
+  const heroList = [];
+  for (const post of allPosts.slice(1)) {
+    if (!usedIds.has(post.id)) {
+      heroList.push(post);
+      usedIds.add(post.id);
+    }
+    if (heroList.length >= 3) break;
+  }
+
+  // 2. Most Popular gets next pick (5 articles)
+  const mostPopular = [];
+  for (const post of allPosts) {
+    if (!usedIds.has(post.id)) {
+      mostPopular.push(post);
+      usedIds.add(post.id);
+    }
+    if (mostPopular.length >= 5) break;
+  }
+
+  // 3. Use the fallback logic to fill categories using ONLY unused posts
+  const solarPosts = fillWithFallbacks(await getPostsByCategorySlug('solar', 10), allPosts, 5, usedIds);
+  const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 10), allPosts, 6, usedIds);
+  const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 10), allPosts, 5, usedIds);
+  const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 10), allPosts, 5, usedIds);
+  const interviewPosts = fillWithFallbacks(await getPostsByCategorySlug('interview', 10), allPosts, 3, usedIds);
+  const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 10), allPosts, 3, usedIds);
+  const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 10), allPosts, 3, usedIds);
 
   return (
     <div className="container mx-auto px-4 py-6 overflow-hidden max-w-[1280px]">
