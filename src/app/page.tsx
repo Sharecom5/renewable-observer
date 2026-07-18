@@ -136,7 +136,13 @@ export default async function Home() {
   const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 10), allPosts, 6, usedTitles);
   const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 10), allPosts, 5, usedTitles);
   const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 10), allPosts, 5, usedTitles);
-  const interviewPosts = fillWithFallbacks(await getPostsByCategorySlug('interview', 10), allPosts, 3, usedTitles);
+  
+  // Combine both 'interview' and 'interviews' slugs since the backend has two categories
+  const interviews1 = await getPostsByCategorySlug('interview', 10);
+  const interviews2 = await getPostsByCategorySlug('interviews', 10);
+  const combinedInterviews = [...interviews1, ...interviews2].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const interviewPosts = fillWithFallbacks(combinedInterviews, allPosts, 3, usedTitles);
+
   const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 10), allPosts, 3, usedTitles);
   const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 10), allPosts, 3, usedTitles);
 
