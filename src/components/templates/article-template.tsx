@@ -157,7 +157,6 @@ export function ArticleTemplate({ post, relatedPosts }: ArticleTemplateProps) {
                 fill
                 sizes="(max-width: 1024px) 100vw, 800px"
                 className="object-cover"
-                unoptimized={true}
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60"></div>

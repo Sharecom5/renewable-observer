@@ -36,7 +36,6 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
             fill 
             sizes="(max-width: 1024px) 100vw, 50vw"
             priority={true}
-            unoptimized={true}
             className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105 z-0" 
           />
         ) : (
@@ -113,7 +112,6 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
                 alt={post.title.rendered} 
                 fill 
                 sizes="96px"
-                unoptimized={true}
                 className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
               />
             </div>
@@ -137,7 +135,6 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
                 alt={post.title.rendered} 
                 fill 
                 sizes="96px"
-                unoptimized={true}
                 className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
               />
             </div>
@@ -171,7 +168,6 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
                 fill 
                 sizes={isFeatured ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
                 priority={isFeatured}
-                unoptimized={true}
                 className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105`} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
