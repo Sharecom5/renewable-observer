@@ -160,7 +160,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
       className={`overflow-hidden group flex flex-col bg-card/40 backdrop-blur-md rounded-xl border border-white/20 dark:border-white/5 shadow-sm hover:shadow-md hover:shadow-primary/10 transition-all duration-300 ${isFeatured ? 'col-span-full mb-6' : ''}`}
     >
       {post.featured_image_url && (
-        <div className={`relative w-full overflow-hidden mb-2 ${isFeatured ? 'h-40 md:h-48' : 'h-32 md:h-36'} m-1.5 rounded-lg border border-white/10`}>
+        <div className={`relative w-full overflow-hidden mb-2 ${isFeatured ? 'aspect-[16/9] bg-muted/10' : 'h-32 md:h-36'} m-1.5 rounded-lg border border-white/10`}>
           <Link href={`/${post.slug}`} className="block relative w-full h-full">
               <Image 
                 src={post.featured_image_url} 
@@ -168,7 +168,7 @@ export function NewsCard({ post, variant = "default" }: NewsCardProps) {
                 fill 
                 sizes={isFeatured ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
                 priority={isFeatured}
-                className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105`} 
+                className={`${isFeatured ? 'object-contain' : 'object-cover'} transition-transform duration-700 ease-out group-hover:scale-105`} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </Link>
