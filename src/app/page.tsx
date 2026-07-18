@@ -242,19 +242,11 @@ export default async function Home() {
           </div>
 
           {/* Sidebar Ad 2 */}
-          <div className="w-full h-[600px] bg-gradient-to-b from-[#0F5132] to-black border border-border/50 flex flex-col items-center justify-center relative mt-8 sticky top-24 overflow-hidden group hover:shadow-xl transition-all duration-300">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500 mix-blend-overlay"></div>
-            <span className="text-[9px] uppercase tracking-widest text-white/50 absolute top-2 left-2 z-10">Advertisement</span>
-            <div className="flex flex-col items-center justify-center text-center p-8 z-10 w-full h-full border-[12px] border-white/5">
-              <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center mb-6 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-400"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              </div>
-              <span className="font-black text-2xl text-white uppercase tracking-widest mb-2 drop-shadow-md">Amplify</span>
-              <span className="font-black text-4xl text-yellow-400 uppercase tracking-widest mb-6 drop-shadow-lg leading-none">Your<br/>Brand</span>
-              <p className="text-white/80 text-sm font-medium mb-8 max-w-[200px] leading-relaxed drop-shadow-sm">Reach global leaders in the renewable energy sector.</p>
-              <a href="mailto:hello@renewableobserver.com" className="bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-black uppercase tracking-[0.2em] py-4 px-6 rounded-sm transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.3)] hover:shadow-[0_0_30px_rgba(250,204,21,0.5)]">Book This Space</a>
-            </div>
-            <a href="mailto:hello@renewableobserver.com" className="absolute inset-0 z-20"><span className="sr-only">Book Ad Space</span></a>
+          <div className="w-full mt-8 sticky top-24 flex flex-col items-center">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 mb-2">Advertisement</span>
+            <Link href="#" className="block w-full hover:opacity-95 transition-opacity">
+              <img src="/images/banner2.webp" alt="Advertisement" className="w-full h-auto object-contain shadow-sm border border-border/50" />
+            </Link>
           </div>
 
         </div>

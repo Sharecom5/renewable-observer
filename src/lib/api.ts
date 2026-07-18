@@ -179,7 +179,16 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 function mapWPPostToPost(wpPost: any): Post {
   let featured_image_url = undefined;
   if (wpPost._embedded && wpPost._embedded['wp:featuredmedia'] && wpPost._embedded['wp:featuredmedia'].length > 0) {
-    featured_image_url = wpPost._embedded['wp:featuredmedia'][0].source_url;
+    const media = wpPost._embedded['wp:featuredmedia'][0];
+    featured_image_url = media.source_url || (media.media_details && media.media_details.sizes && media.media_details.sizes.full && media.media_details.sizes.full.source_url);
+  }
+
+  // Fallback: If they didn't explicitly set a "Featured Image", try to find the first image in the article content
+  if (!featured_image_url && wpPost.content && wpPost.content.rendered) {
+    const imgMatch = wpPost.content.rendered.match(/<img[^>]+src="([^">]+)"/i);
+    if (imgMatch && imgMatch[1]) {
+      featured_image_url = imgMatch[1];
+    }
   }
 
   let category_info: Category[] = [];

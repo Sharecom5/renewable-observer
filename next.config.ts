@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'admin.renewableobserver.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'renewablemirror.com',
       }
     ],
   },
