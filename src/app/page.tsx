@@ -70,13 +70,22 @@ function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength:
     if (result.length >= minLength) break;
   }
   
-  // If we still need more to fill the section, borrow from global recent news (if not already used)
+  // If we still need more to fill the section, borrow from global recent news (unused)
   if (result.length < minLength) {
     for (const post of fallbackPosts) {
       if (!usedTitles.has(post.title.rendered)) {
         result.push(post);
         usedTitles.add(post.title.rendered);
       }
+      if (result.length >= minLength) break;
+    }
+  }
+
+  // FORCE FILL: If we STILL don't have enough posts (because the database is small), 
+  // allow duplicates just to make the homepage look full!
+  if (result.length < minLength) {
+    for (const post of fallbackPosts) {
+      result.push(post);
       if (result.length >= minLength) break;
     }
   }

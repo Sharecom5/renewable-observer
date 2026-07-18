@@ -6,7 +6,7 @@
 
 @layer components {
   .prose {
-    white-space: pre-wrap;
+    /* white-space: pre-wrap was causing excessive vertical gaps between paragraphs */
   }
 }
 
