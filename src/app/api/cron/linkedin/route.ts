@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getLatestPosts } from '@/lib/api';
+import { getPosts } from '@/lib/api';
 // Stateless time-based check variables
 const MAX_AGE_MINUTES = 1440; // 24 hours
 
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
   try {
     // 11 is the "All News" category ID on admin.renewableobserver.com
-    const posts = await getLatestPosts(1, 11);
+    const posts = await getPosts(1, 11);
     if (!posts || posts.length === 0) {
       return NextResponse.json({ message: 'No posts found' });
     }
