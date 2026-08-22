@@ -1,8 +1,16 @@
 import { Post, Category, Author } from "@/types";
+import { isJunkPost, isJunkByIdentity } from "./content-filter";
 
 const WP_API_URL = "https://admin.renewableobserver.com/wp-json/wp/v2";
 
-// Temporary fallback ad codes until WP is fully configured
+/** The WordPress REST API rejects per_page above this with a 400. */
+const WP_MAX_PER_PAGE = 100;
+
+/**
+ * House ad creatives, shown when the backend has no ad booked for a slot.
+ * These are clearly-labelled placeholders for empty inventory — unlike editorial
+ * content, there is no reader harm in a fallback here.
+ */
 const FALLBACK_ADS: Record<string, string> = {
   "header-leaderboard": `
     <a href="#" class="w-full max-w-[728px] lg:max-w-[970px] h-[90px] relative overflow-hidden group cursor-pointer items-center justify-center bg-black flex mx-auto block">
@@ -45,65 +53,121 @@ const FALLBACK_ADS: Record<string, string> = {
       </div>
       <div class="absolute top-1 left-2 text-[8px] uppercase tracking-widest text-white/50">Advertisement</div>
     </a>
-  `
+  `,
 };
 
 export async function getAdSlot(slotId: string): Promise<string> {
-  // Try to fetch from WordPress backend
   try {
-    // Assuming you create a custom post type 'ads' where slug = slotId, and content is the ad code.
-    const res = await fetch(WP_API_URL + "/ads?slug=" + slotId, { next: { revalidate: 60 } });
+    const res = await fetch(`${WP_API_URL}/ads?slug=${encodeURIComponent(slotId)}`, {
+      next: { revalidate: 60 },
+    });
     if (res.ok) {
       const data = await res.json();
-      if (data && data.length > 0 && data[0].content && data[0].content.rendered) {
+      if (data?.length > 0 && data[0].content?.rendered) {
         return data[0].content.rendered;
       }
     }
   } catch (error) {
-    console.error("Failed to fetch ad slot " + slotId + " from WP backend:", error);
+    console.error(`Failed to fetch ad slot ${slotId} from WP backend:`, error);
   }
 
-  // Graceful Fallback if WP isn't returning ads yet
   return FALLBACK_ADS[slotId] || "";
 }
 
-const MOCK_CATEGORIES: Category[] = [
-  { id: 1, name: "Solar News", slug: "solar", count: 120 },
-  { id: 2, name: "Wind Energy", slug: "wind", count: 85 },
-  { id: 3, name: "Green Hydrogen", slug: "hydrogen", count: 42 },
-  { id: 4, name: "Energy Storage", slug: "storage", count: 67 },
-  { id: 5, name: "Policy & Regulation", slug: "policy", count: 94 },
-  { id: 6, name: "Market Intelligence", slug: "market", count: 156 },
-];
+/* ------------------------------------------------------------------ *
+ * Shape of the raw WordPress REST payloads we consume.
+ * ------------------------------------------------------------------ */
 
-const MOCK_AUTHORS: Author[] = [
-  { id: 1, name: "Sarah Jenkins", slug: "sarah-jenkins", description: "Senior Editor covering Solar and Wind." },
-  { id: 2, name: "David Chen", slug: "david-chen", description: "Market Analyst focusing on Energy Finance." },
-];
+interface WPTerm {
+  id: number;
+  name: string;
+  slug: string;
+  count?: number;
+}
 
-const MOCK_POSTS: Post[] = Array.from({ length: 20 }).map((_, i) => ({
-  id: 100 + i,
-  date: new Date(Date.now() - i * 86400000).toISOString(),
-  slug: `renewable-energy-news-${i}`,
-  status: "publish",
-  type: "post",
-  title: {
-    rendered: `Major Breakthrough in ${i % 2 === 0 ? "Solar" : "Wind"} Technology Announced Today`,
-  },
-  content: {
-    rendered: `<p>This is the full article content. Renewable energy is seeing unprecedented growth globally...</p>`,
-  },
-  excerpt: {
-    rendered: `<p>Discover how the latest innovations are changing the landscape of renewable energy investments.</p>`,
-  },
-  author: i % 2 === 0 ? 1 : 2,
-  author_info: i % 2 === 0 ? MOCK_AUTHORS[0] : MOCK_AUTHORS[1],
-  featured_media: 200 + i,
-  featured_image_url: `https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80`, // Generic solar image
-  categories: [i % MOCK_CATEGORIES.length + 1],
-  category_info: [MOCK_CATEGORIES[i % MOCK_CATEGORIES.length]],
-  tags: [],
-}));
+interface WPMedia {
+  source_url?: string;
+  media_details?: { sizes?: { full?: { source_url?: string } } };
+}
+
+interface WPAuthor {
+  id: number;
+  name: string;
+  slug?: string;
+  description?: string;
+}
+
+interface WPPost extends Omit<Post, "featured_image_url" | "category_info" | "author_info"> {
+  _embedded?: {
+    "wp:featuredmedia"?: WPMedia[];
+    "wp:term"?: WPTerm[][];
+    author?: WPAuthor[];
+  };
+}
+
+/**
+ * A failure that should surface as a 5xx rather than a 404.
+ *
+ * The distinction matters for search: a missing article is a permanent signal
+ * that removes a URL from the index, whereas a transient backend error should
+ * tell crawlers to come back later. Never conflate the two.
+ */
+export class BackendUnavailableError extends Error {
+  constructor(url: string, detail: string) {
+    super(`WordPress backend unavailable (${url}): ${detail}`);
+    this.name = "BackendUnavailableError";
+  }
+}
+
+const RETRY_ATTEMPTS = 3;
+const RETRY_BASE_MS = 400;
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Fetch against the WordPress REST API, retrying transient failures.
+ *
+ * A build prerenders a hundred articles, and the WordPress host rate-limits
+ * under that kind of burst — one dropped connection would otherwise fail the
+ * whole deploy. Retries cover network errors, 429 and 5xx.
+ *
+ * 4xx responses are returned to the caller rather than retried: those are
+ * answers, not outages, and repeating them just burns the rate limit faster.
+ */
+async function wpFetch(url: string, revalidate = 60): Promise<Response> {
+  let lastDetail = "unknown error";
+
+  for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
+    let res: Response | undefined;
+
+    try {
+      res = await fetch(url, { next: { revalidate } });
+    } catch (error) {
+      lastDetail = (error as Error).message;
+    }
+
+    if (res) {
+      if (res.ok) return res;
+
+      lastDetail = `HTTP ${res.status} ${res.statusText}`;
+
+      // A client error is a real answer — surface it immediately.
+      if (res.status < 500 && res.status !== 429) {
+        throw new BackendUnavailableError(url, lastDetail);
+      }
+    }
+
+    if (attempt < RETRY_ATTEMPTS) {
+      await sleep(RETRY_BASE_MS * 2 ** (attempt - 1));
+    }
+  }
+
+  throw new BackendUnavailableError(url, `${lastDetail} (after ${RETRY_ATTEMPTS} attempts)`);
+}
+
+/* ------------------------------------------------------------------ *
+ * Market data
+ * ------------------------------------------------------------------ */
 
 export async function getLiveStockData() {
   const symbols = [
@@ -117,131 +181,337 @@ export async function getLiveStockData() {
     { symbol: "RELIANCE.NS", name: "Reliance New Energy" },
   ];
 
-  try {
-    const promises = symbols.map(async (s) => {
+  const quotes = await Promise.all(
+    symbols.map(async (s) => {
       try {
-        const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${s.symbol}`, { 
-          cache: 'no-store',
-          headers: { 'User-Agent': 'Mozilla/5.0' }
-        });
-        
-        if (!res.ok) throw new Error("Failed to fetch");
-        
+        const res = await fetch(
+          `https://query1.finance.yahoo.com/v8/finance/chart/${s.symbol}`,
+          { cache: "no-store", headers: { "User-Agent": "Mozilla/5.0" } }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const json = await res.json();
-        const meta = json.chart.result[0].meta;
-        const price = meta.regularMarketPrice;
-        const prevClose = meta.previousClose;
-        
+        const meta = json?.chart?.result?.[0]?.meta;
+        const price = meta?.regularMarketPrice;
+        const prevClose = meta?.previousClose;
+
+        // Guard the division: a zero or missing previous close yields NaN/Infinity,
+        // which would render as "NaN%" in the ticker.
+        if (typeof price !== "number" || typeof prevClose !== "number" || !prevClose) {
+          return null;
+        }
+
         const changeVal = ((price - prevClose) / prevClose) * 100;
-        const changeStr = `${changeVal > 0 ? '+' : ''}${changeVal.toFixed(2)}%`;
-        
+
         return {
           ...s,
           price: price.toFixed(2),
-          change: changeStr,
-          isPositive: changeVal >= 0
+          change: `${changeVal > 0 ? "+" : ""}${changeVal.toFixed(2)}%`,
+          isPositive: changeVal >= 0,
         };
-      } catch (e) {
-        return { ...s, price: "0.00", change: "0.00%", isPositive: true };
+      } catch {
+        // Drop the symbol rather than showing a fabricated 0.00 quote.
+        return null;
       }
-    });
+    })
+  );
 
-    return await Promise.all(promises);
-  } catch (error) {
-    console.error("Error fetching live stock data:", error);
-    return [];
-  }
+  return quotes.filter((q): q is NonNullable<typeof q> => q !== null);
 }
 
-export async function getCategories(): Promise<Category[]> {
-  try {
-    const res = await fetch(`${WP_API_URL}/categories?per_page=100`, { next: { revalidate: 60 } });
-    if (res.ok) return await res.json();
-  } catch (error) {
-    console.warn("Failed to fetch categories from WP, falling back to mock");
-  }
-  return MOCK_CATEGORIES;
+/* ------------------------------------------------------------------ *
+ * Categories
+ * ------------------------------------------------------------------ */
+
+export async function getCategories(revalidate = 60): Promise<Category[]> {
+  const res = await wpFetch(`${WP_API_URL}/categories?per_page=${WP_MAX_PER_PAGE}`, revalidate);
+  return res.json();
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  try {
-    const res = await fetch(`${WP_API_URL}/categories?slug=${slug}`, { next: { revalidate: 60 } });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.length > 0) return data[0];
-    }
-  } catch (error) {
-    console.warn(`Failed to fetch category ${slug} from WP, falling back to mock`);
-  }
-  return MOCK_CATEGORIES.find((c) => c.slug === slug) || null;
+  const res = await wpFetch(`${WP_API_URL}/categories?slug=${encodeURIComponent(slug)}`);
+  const data: Category[] = await res.json();
+  return data?.length > 0 ? data[0] : null;
 }
 
-function mapWPPostToPost(wpPost: any): Post {
-  let featured_image_url = undefined;
-  if (wpPost._embedded && wpPost._embedded['wp:featuredmedia'] && wpPost._embedded['wp:featuredmedia'].length > 0) {
-    const media = wpPost._embedded['wp:featuredmedia'][0];
-    featured_image_url = media.source_url || (media.media_details && media.media_details.sizes && media.media_details.sizes.full && media.media_details.sizes.full.source_url);
-  }
+/** One request for every category, so callers can resolve slugs without a round-trip each. */
+export async function getCategoryMap(): Promise<Map<string, Category>> {
+  const categories = await getCategories();
+  return new Map(categories.map((c) => [c.slug, c]));
+}
 
-  // Fallback: If they didn't explicitly set a "Featured Image", try to find the first image in the article content
-  if (!featured_image_url && wpPost.content && wpPost.content.rendered) {
-    const imgMatch = wpPost.content.rendered.match(/<img[^>]+src="([^">]+)"/i);
-    if (imgMatch && imgMatch[1]) {
-      featured_image_url = imgMatch[1];
-    }
-  }
+/* ------------------------------------------------------------------ *
+ * Posts
+ * ------------------------------------------------------------------ */
 
-  let category_info: Category[] = [];
-  if (wpPost._embedded && wpPost._embedded['wp:term'] && wpPost._embedded['wp:term'].length > 0) {
-    const terms = wpPost._embedded['wp:term'][0];
-    if (Array.isArray(terms)) {
-      category_info = terms.map((t: any) => ({
-        id: t.id,
-        name: t.name,
-        slug: t.slug,
-        count: t.count || 0
-      }));
-    }
-  }
+/** Shown when the CMS account has no presentable display name. */
+export const DEFAULT_BYLINE = "Editorial Desk";
 
-  let author_info: Author | undefined = undefined;
-  if (wpPost._embedded && wpPost._embedded['author'] && wpPost._embedded['author'].length > 0) {
-    const author = wpPost._embedded['author'][0];
-    author_info = {
-      id: author.id,
-      name: author.name,
-      slug: author.slug,
-      description: author.description || ""
-    };
+/**
+ * WordPress falls back to the account's login when no display name is set, and
+ * on this install that login is a personal email address. Publishing it would
+ * put a private address in every byline and in the Article schema, so anything
+ * email-shaped is replaced with the house byline.
+ */
+function normaliseAuthor(author: WPAuthor | undefined): Author | undefined {
+  if (!author) return undefined;
+
+  const name = (author.name || "").trim();
+  const looksLikeEmail = name.includes("@");
+
+  if (!name || looksLikeEmail) {
+    return { id: author.id, name: DEFAULT_BYLINE, description: "" };
   }
 
   return {
-    ...wpPost,
-    featured_image_url,
-    category_info,
-    author_info
+    id: author.id,
+    name,
+    slug: author.slug,
+    description: author.description || "",
   };
 }
 
+function mapWPPostToPost(wpPost: WPPost): Post {
+  const embedded = wpPost._embedded;
+
+  let featured_image_url: string | undefined;
+  const media = embedded?.["wp:featuredmedia"]?.[0];
+  if (media) {
+    featured_image_url = media.source_url || media.media_details?.sizes?.full?.source_url;
+  }
+
+  // Fall back to the first image in the body when no featured image is set.
+  if (!featured_image_url && wpPost.content?.rendered) {
+    const imgMatch = wpPost.content.rendered.match(/<img[^>]+src="([^">]+)"/i);
+    if (imgMatch?.[1]) featured_image_url = imgMatch[1];
+  }
+
+  const terms = embedded?.["wp:term"]?.[0];
+  const category_info: Category[] = Array.isArray(terms)
+    ? terms.map((t) => ({ id: t.id, name: t.name, slug: t.slug, count: t.count || 0 }))
+    : [];
+
+  const author_info = normaliseAuthor(embedded?.author?.[0]);
+
+  // Built field by field rather than spreading wpPost.
+  //
+  // Spreading carried `_embedded` and `_links` — the entire raw REST payload —
+  // into the serialized component tree, which shipped the WordPress account's
+  // display name (a personal email address) to the browser on every article,
+  // along with several KB per post of link relations nothing renders.
+  return {
+    id: wpPost.id,
+    date: wpPost.date,
+    modified: wpPost.modified,
+    slug: wpPost.slug,
+    status: wpPost.status,
+    type: wpPost.type,
+    title: wpPost.title,
+    content: wpPost.content,
+    excerpt: wpPost.excerpt,
+    author: wpPost.author,
+    featured_media: wpPost.featured_media,
+    categories: wpPost.categories,
+    tags: wpPost.tags,
+    rank_math_title: wpPost.rank_math_title,
+    rank_math_description: wpPost.rank_math_description,
+    rank_math_robots: wpPost.rank_math_robots,
+    featured_image_url,
+    category_info,
+    author_info,
+  };
+}
+
+/**
+ * Fetches posts, paginating transparently past the API's 100-per-request cap.
+ *
+ * A limit above 100 previously produced a 400 that was swallowed as "no posts",
+ * which is how the sitemap came to publish placeholder content.
+ */
 export async function getPosts(limit = 10, categoryId?: number): Promise<Post[]> {
-  try {
-    let url = `${WP_API_URL}/posts?per_page=${limit}&_embed`;
+  // Fixed page size for the whole walk. `page` is an offset expressed in units
+  // of `per_page`, so shrinking per_page on the final request to fetch exactly
+  // the remainder would re-request posts already collected — page 3 of 50 covers
+  // the same range as page 2 of 100. Take full pages and trim at the end.
+  const perPage = Math.min(limit, WP_MAX_PER_PAGE);
+  const posts: Post[] = [];
+  let page = 1;
+
+  while (posts.length < limit) {
+    let url = `${WP_API_URL}/posts?per_page=${perPage}&page=${page}&_embed`;
     if (categoryId) url += `&categories=${categoryId}`;
-    
-    const res = await fetch(url, { next: { revalidate: 60 } });
-    if (res.ok) {
-      const data = await res.json();
-      return data.map(mapWPPostToPost);
+
+    const res = await wpFetch(url);
+    const batch: WPPost[] = await res.json();
+
+    // Contact-form submissions are dropped here rather than at each call site,
+    // so no surface can accidentally publish one. The loop keeps paging until
+    // it has `limit` real articles.
+    posts.push(...batch.filter((p) => !isJunkPost(p)).map(mapWPPostToPost));
+
+    const totalPages = Number(res.headers.get("x-wp-totalpages")) || 1;
+    if (page >= totalPages || batch.length === 0) break;
+    page++;
+  }
+
+  return posts.slice(0, limit);
+}
+
+/**
+ * Slug and date for every published post, for the sitemap.
+ *
+ * Skips _embed and requests only the two fields needed — the full payload for
+ * a thousand-plus posts is large enough to time out the sitemap route.
+ */
+export interface PostIndexEntry {
+  slug: string;
+  date: string;
+  modified?: string;
+  title: { rendered: string };
+}
+
+export async function getAllPostSlugs(): Promise<PostIndexEntry[]> {
+  const entries: PostIndexEntry[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const url = `${WP_API_URL}/posts?per_page=${WP_MAX_PER_PAGE}&page=${page}&_fields=slug,date,modified,title`;
+    const res = await wpFetch(url, 3600);
+    totalPages = Number(res.headers.get("x-wp-totalpages")) || 1;
+    const batch: PostIndexEntry[] = await res.json();
+
+    // Identity-only check: this walk deliberately omits post bodies, since
+    // pulling a thousand of them would time the sitemap out.
+    entries.push(...batch.filter((e) => !isJunkByIdentity(e.title.rendered, e.slug)));
+    page++;
+  } while (page <= totalPages);
+
+  return entries;
+}
+
+/**
+ * Collapses the backend's repeated imports of the same article, keeping the
+ * oldest copy — it holds the unsuffixed slug and whatever search equity exists.
+ *
+ * WordPress gives each re-import a distinct slug (-2, -3, …), so deduping on
+ * slug alone would still submit three URLs for one article.
+ */
+function titleKeyOf(entry: PostIndexEntry): string {
+  return entry.title.rendered.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+export function dedupeByTitle(entries: PostIndexEntry[]): PostIndexEntry[] {
+  const byTitle = new Map<string, PostIndexEntry>();
+
+  for (const entry of entries) {
+    if (!entry.slug) continue;
+    const key = titleKeyOf(entry);
+    const existing = byTitle.get(key);
+    if (!existing || new Date(entry.date) < new Date(existing.date)) {
+      byTitle.set(key, entry);
     }
+  }
+
+  return [...byTitle.values()];
+}
+
+/**
+ * Maps every post slug to the canonical slug for its title.
+ *
+ * The backend holds the same article under several slugs — WordPress appends
+ * -2, -3 on each re-import — and all of them serve identical content. Left
+ * alone that is a duplicate-content signal across roughly seven hundred URLs,
+ * so the copies point their canonical at the oldest version, which holds the
+ * unsuffixed slug and whatever search equity exists.
+ *
+ * Built from the hourly-cached post index, so this costs one walk per hour
+ * rather than one per request. Becomes a no-op once the duplicates are removed
+ * from WordPress.
+ */
+export async function getCanonicalSlugMap(): Promise<Map<string, string>> {
+  const entries = await getAllPostSlugs();
+  const canonicalByTitle = new Map<string, PostIndexEntry>();
+
+  for (const entry of entries) {
+    if (!entry.slug) continue;
+    const key = titleKeyOf(entry);
+    const existing = canonicalByTitle.get(key);
+    if (!existing || new Date(entry.date) < new Date(existing.date)) {
+      canonicalByTitle.set(key, entry);
+    }
+  }
+
+  const map = new Map<string, string>();
+  for (const entry of entries) {
+    if (!entry.slug) continue;
+    const canonical = canonicalByTitle.get(titleKeyOf(entry));
+    if (canonical) map.set(entry.slug, canonical.slug);
+  }
+
+  return map;
+}
+
+/** Canonical slug for one article, falling back to itself if unknown. */
+export async function getCanonicalSlug(slug: string): Promise<string> {
+  try {
+    return (await getCanonicalSlugMap()).get(slug) ?? slug;
+  } catch {
+    // A self-referencing canonical is always safe; never block a page on this.
+    return slug;
+  }
+}
+
+export interface CategoryPage {
+  posts: Post[];
+  page: number;
+  totalPages: number;
+}
+
+/**
+ * One page of a category, for paginated archive pages.
+ *
+ * Without pagination a category showed its newest twenty articles and nothing
+ * linked to the rest, so most of the catalogue was reachable only through the
+ * sitemap. Crawlers follow links to judge how much a section is worth; a feed
+ * that dead-ends after twenty says the section has twenty articles in it.
+ *
+ * `totalPages` comes from WordPress and counts posts before the junk filter,
+ * so the last page can come up a little short. Overstating by a page or two is
+ * harmless; guessing low would hide real articles.
+ */
+export async function getCategoryPage(
+  categoryId: number,
+  page = 1,
+  perPage = 24
+): Promise<CategoryPage> {
+  const url = `${WP_API_URL}/posts?per_page=${perPage}&page=${page}&categories=${categoryId}&_embed`;
+
+  // Asking for a page past the end is a 400 (`rest_post_invalid_page_number`),
+  // not an outage. Treated as "no such page" so the route can 404; letting it
+  // reach wpFetch would raise BackendUnavailableError and render a 500, which
+  // tells crawlers to come back and retry a URL that will never exist.
+  let res: Response;
+  try {
+    res = await fetch(url, { next: { revalidate: 60 } });
   } catch (error) {
-    console.warn("Failed to fetch posts from WP, falling back to mock");
+    throw new BackendUnavailableError(url, (error as Error).message);
   }
-  
-  let filtered = MOCK_POSTS;
-  if (categoryId) {
-    filtered = filtered.filter((p) => p.categories.includes(categoryId));
+
+  if (res.status === 400) {
+    return { posts: [], page, totalPages: 0 };
   }
-  return filtered.slice(0, limit);
+  if (!res.ok) {
+    throw new BackendUnavailableError(url, `HTTP ${res.status} ${res.statusText}`);
+  }
+
+  const batch: WPPost[] = await res.json();
+
+  return {
+    posts: batch.filter((p) => !isJunkPost(p)).map(mapWPPostToPost),
+    page,
+    totalPages: Number(res.headers.get("x-wp-totalpages")) || 1,
+  };
 }
 
 export async function getPostsByCategorySlug(slug: string, limit = 10): Promise<Post[]> {
@@ -250,15 +520,44 @@ export async function getPostsByCategorySlug(slug: string, limit = 10): Promise<
   return getPosts(limit, category.id);
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+/**
+ * Degrading variants, for surfaces where an outage should thin the page rather
+ * than take it down — the breaking-news strip in the root layout would
+ * otherwise 500 every route on the site, including the static policy pages.
+ *
+ * These return fewer posts. They never return invented ones.
+ */
+export async function getPostsSafe(limit = 10, categoryId?: number): Promise<Post[]> {
   try {
-    const res = await fetch(`${WP_API_URL}/posts?slug=${slug}&_embed`, { next: { revalidate: 60 } });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.length > 0) return mapWPPostToPost(data[0]);
-    }
+    return await getPosts(limit, categoryId);
   } catch (error) {
-    console.warn(`Failed to fetch post ${slug} from WP, falling back to mock`);
+    console.error("getPosts failed, rendering without them:", error);
+    return [];
   }
-  return MOCK_POSTS.find((p) => p.slug === slug) || null;
+}
+
+export async function getPostsByCategorySlugSafe(slug: string, limit = 10): Promise<Post[]> {
+  try {
+    return await getPostsByCategorySlug(slug, limit);
+  } catch (error) {
+    console.error(`getPostsByCategorySlug(${slug}) failed, rendering without them:`, error);
+    return [];
+  }
+}
+
+/**
+ * Returns null only when the article genuinely does not exist. A backend
+ * failure throws instead, so the route renders a 5xx rather than a 404.
+ */
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const res = await wpFetch(`${WP_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed`);
+  const data: WPPost[] = await res.json();
+  if (!data?.length) return null;
+
+  // Treated as not found rather than rendered. These pages carried third
+  // parties' names, addresses and phone numbers; a 404 is the correct answer
+  // until they are deleted at source.
+  if (isJunkPost(data[0])) return null;
+
+  return mapWPPostToPost(data[0]);
 }

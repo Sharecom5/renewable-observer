@@ -14,19 +14,35 @@ export function MarketDashboard({ initialData }: { initialData: TickerData[] }) 
  const [stocks, setStocks] = useState<TickerData[]>(initialData)
 
  useEffect(() => {
+ let cancelled = false
+
  const interval = setInterval(async () => {
  try {
  const res = await fetch('/api/stocks')
- if (res.ok) {
+ if (!res.ok) return
  const data = await res.json()
- if (data && data.length > 0) setStocks(data)
- }
+ if (!cancelled && Array.isArray(data) && data.length > 0) setStocks(data)
  } catch (e) {
  console.error("Failed to fetch live stock data", e)
  }
- }, 15000)
- return () => clearInterval(interval)
+ // Eight upstream quotes per poll, so once a minute rather than every 15s.
+ }, 60_000)
+
+ return () => {
+ cancelled = true
+ clearInterval(interval)
+ }
  }, [])
+
+ // Quotes that fail upstream are dropped rather than shown as 0.00, so this
+ // list can legitimately be empty.
+ if (stocks.length === 0) {
+ return (
+ <p className="text-muted-foreground py-12">
+ Live prices are unavailable right now. Please check back shortly.
+ </p>
+ )
+ }
 
  return (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

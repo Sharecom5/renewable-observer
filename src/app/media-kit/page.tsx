@@ -1,8 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
- title: "Media Kit | Renewable Observer",
+ alternates: { canonical: "/media-kit" },
+ openGraph: ogFor("/media-kit"),
+ title: "Media Kit",
  description: "Download the Renewable Observer Media Kit to explore advertising options, audience demographics, and sponsorship opportunities.",
 }
 
@@ -13,22 +15,22 @@ export default function MediaKitPage() {
  <div className="max-w-4xl mx-auto mb-12 text-center">
  <span className="inline-block px-3 py-1 bg-accent/20 text-accent-foreground font-semibold text-sm mb-4">Partner With Us</span>
  <h1 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4 text-primary">Media Kit</h1>
- <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Connect your brand with the world's leading professionals driving the renewable energy transition.</p>
+ <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Connect your brand with the world’s leading professionals driving the renewable energy transition.</p>
  </div>
  </FadeIn>
 
  <div className="max-w-5xl mx-auto">
  <FadeIn delay={0.1}>
  <div className="grid md:grid-cols-3 gap-8 mb-16">
- <div className="bg-background border p-6 text-center ">
+ <div className="bg-background border p-6 text-center">
  <div className="text-4xl font-bold text-primary mb-2">100K+</div>
  <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Monthly Professionals</div>
  </div>
- <div className="bg-background border p-6 text-center ">
+ <div className="bg-background border p-6 text-center">
  <div className="text-4xl font-bold text-secondary mb-2">45K+</div>
  <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Newsletter Subscribers</div>
  </div>
- <div className="bg-background border p-6 text-center ">
+ <div className="bg-background border p-6 text-center">
  <div className="text-4xl font-bold text-accent mb-2">60%</div>
  <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">C-Suite & Directors</div>
  </div>
@@ -39,9 +41,9 @@ export default function MediaKitPage() {
  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground space-y-8">
  <section>
  <h2 className="text-3xl font-bold text-foreground">Our Audience Demographics</h2>
- <p>Renewable Observer serves a highly targeted, global audience of B2B professionals, investors, and policymakers. By advertising with us, you aren't just buying impressions—you are securing engagement from the decision-makers shaping the clean energy economy.</p>
+ <p>Renewable Observer serves a highly targeted, global audience of B2B professionals, investors, and policymakers. By advertising with us, you aren’t just buying impressions—you are securing engagement from the decision-makers shaping the clean energy economy.</p>
  <div className="grid sm:grid-cols-2 gap-8 mt-6 not-prose">
- <div className="bg-background border-y border-border p-6 border">
+ <div className="bg-muted/40 border border-border rounded-lg p-6">
  <h3 className="font-bold text-foreground mb-4">By Sector</h3>
  <ul className="space-y-2 text-sm text-muted-foreground">
  <li className="flex justify-between border-b pb-2"><span>Project Developers</span> <span className="font-bold">25%</span></li>
@@ -52,7 +54,7 @@ export default function MediaKitPage() {
  <li className="flex justify-between pb-2"><span>Other (Research, Legal, Media)</span> <span className="font-bold">10%</span></li>
  </ul>
  </div>
- <div className="bg-background border-y border-border p-6 border">
+ <div className="bg-muted/40 border border-border rounded-lg p-6">
  <h3 className="font-bold text-foreground mb-4">By Region</h3>
  <ul className="space-y-2 text-sm text-muted-foreground">
  <li className="flex justify-between border-b pb-2"><span>North America</span> <span className="font-bold">35%</span></li>
@@ -101,7 +103,7 @@ export default function MediaKitPage() {
  </div>
  </section>
 
- <section className="bg-background border-t-4 border-t-primary border-x border-b border-border border border-primary/20 p-10 text-center mt-16">
+ <section className="bg-primary/5 border border-primary/20 border-t-4 border-t-primary rounded-lg p-10 text-center mt-16">
  <h2 className="text-3xl font-bold text-foreground mb-4">Request the Full PDF Media Kit</h2>
  <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">For detailed pricing, inventory availability, and custom campaign proposals, please contact our advertising team to request the full 2026 PDF Media Kit.</p>
  

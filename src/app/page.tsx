@@ -1,26 +1,44 @@
-import { getPosts, getPostsByCategorySlug } from "@/lib/api"
+import { getPostsSafe, getCategoryMap, getPosts } from "@/lib/api"
 import { NewsCard } from "@/components/ui/news-card"
 import { FadeIn } from "@/components/ui/fade-in"
+import { SubscribeForm } from "@/components/ui/subscribe-form"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight } from "lucide-react"
-import { DynamicAd } from "@/components/ui/dynamic-ad"
+import { Post, Category } from "@/types"
 
-// 1. Feature + List (Style A)
-function FeatureListCategory({ title, posts, slug, colorClass }: { title: string, posts: any[], slug: string, colorClass: string }) {
-  if (!posts || posts.length === 0) return null;
+export const revalidate = 60
+
+/**
+ * Section heading with a link through to the full category.
+ *
+ * The rule under it is the primary green rather than a per-section colour.
+ * Seven different accent colours read as decoration; one repeated accent reads
+ * as a system, and leaves colour free to mean something when it is used.
+ */
+function SectionHeading({ title, slug }: { title: string; slug: string }) {
   return (
-    <section className="mb-10">
-      <div className={`flex items-center justify-between mb-4 pb-2 border-b-2 ${colorClass}`}>
-        <h2 className={`text-base font-bold uppercase tracking-wide text-foreground`}>{title}</h2>
-        <Link href={`/${slug}`} className="text-xs font-bold text-muted-foreground hover:text-primary uppercase tracking-widest flex items-center gap-1 group">
-          View All <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-        </Link>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <NewsCard post={posts[0]} variant="featured" />
-        </div>
-        <div className="flex flex-col gap-0">
+    <div className="flex items-baseline justify-between mb-5 pb-2 border-b-2 border-primary">
+      <h2 className="font-serif text-xl font-bold tracking-tight text-foreground">{title}</h2>
+      <Link
+        href={`/${slug}`}
+        className="text-[11px] font-bold text-muted-foreground hover:text-primary uppercase tracking-[0.12em] flex items-center gap-1 group shrink-0"
+      >
+        All {title} <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+      </Link>
+    </div>
+  )
+}
+
+/** Section lead plus a short list — the standard newspaper section block. */
+function SectionBlock({ title, posts, slug }: { title: string; posts: Post[]; slug: string }) {
+  if (!posts?.length) return null
+  return (
+    <section className="mb-12">
+      <SectionHeading title={title} slug={slug} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <NewsCard post={posts[0]} variant="featured" />
+        <div className="flex flex-col">
           {posts.slice(1, 5).map((post) => (
             <NewsCard key={post.id} post={post} variant="thumbnailLeft" />
           ))}
@@ -30,242 +48,207 @@ function FeatureListCategory({ title, posts, slug, colorClass }: { title: string
   )
 }
 
-// 2. 2-Column Split (Style B)
-function SplitColumnCategory({ title, posts, slug, colorClass }: { title: string, posts: any[], slug: string, colorClass: string }) {
-  if (!posts || posts.length === 0) return null;
+/** Three-across grid, for sections with enough depth to fill it. */
+function GridBlock({ title, posts, slug }: { title: string; posts: Post[]; slug: string }) {
+  if (!posts?.length) return null
   return (
-    <section className="mb-10">
-      <div className={`flex items-center justify-between mb-4 pb-2 border-b-2 ${colorClass}`}>
-        <h2 className={`text-base font-bold uppercase tracking-wide text-foreground`}>{title}</h2>
-        <Link href={`/${slug}`} className="text-xs font-bold text-muted-foreground hover:text-primary uppercase tracking-widest flex items-center gap-1 group">
-          View All <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-        </Link>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0">
-        <div className="flex flex-col gap-0">
-          {posts.slice(0, 3).map((post) => (
-            <NewsCard key={post.id} post={post} variant="compact" />
-          ))}
-        </div>
-        <div className="flex flex-col gap-0">
-          {posts.slice(3, 6).map((post) => (
-            <NewsCard key={post.id} post={post} variant="compact" />
-          ))}
-        </div>
+    <section className="mb-12">
+      <SectionHeading title={title} slug={slug} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+        {posts.slice(0, 3).map((post) => (
+          <NewsCard key={post.id} post={post} variant="default" />
+        ))}
       </div>
     </section>
   )
 }
 
-// Helper function to pad categories with generic news while ensuring ZERO repetitions globally
-function fillWithFallbacks(primaryPosts: any[], fallbackPosts: any[], minLength: number, usedTitles: Set<string>) {
-  const result = [];
-  
-  // First, take the actual category posts (if not already used)
-  for (const post of primaryPosts) {
-    if (!usedTitles.has(post.title.rendered)) {
-      result.push(post);
-      usedTitles.add(post.title.rendered);
-    }
-    if (result.length >= minLength) break;
-  }
-  
-  // If we still need more to fill the section, borrow from global recent news (unused)
-  if (result.length < minLength) {
-    for (const post of fallbackPosts) {
-      if (!usedTitles.has(post.title.rendered)) {
-        result.push(post);
-        usedTitles.add(post.title.rendered);
-      }
-      if (result.length >= minLength) break;
-    }
-  }
+function titleKey(post: Post) {
+  return post.title.rendered.replace(/<[^>]+>/g, "").trim().toLowerCase()
+}
 
-  // FORCE FILL: If we STILL don't have enough posts (because the database is small), 
-  // allow duplicates just to make the homepage look full!
-  if (result.length < minLength) {
-    for (const post of fallbackPosts) {
-      result.push(post);
-      if (result.length >= minLength) break;
-    }
+/**
+ * Takes up to `max` posts not already placed elsewhere on the page.
+ *
+ * Sections that come up short render short. An earlier version repeated
+ * articles to fill the grid, which duplicated React keys and showed readers
+ * the same headline twice.
+ */
+function takeUnused(candidates: Post[], max: number, used: Set<string>) {
+  const result: Post[] = []
+  for (const post of candidates) {
+    const key = titleKey(post)
+    if (used.has(key)) continue
+    used.add(key)
+    result.push(post)
+    if (result.length >= max) break
   }
-  
-  return result;
+  return result
 }
 
 export default async function Home() {
-  const allPosts = await getPosts(100) // Fetch a lot of posts so we don't run out of unique ones
-  
-  if (!allPosts || allPosts.length === 0) {
+  const [allPosts, categoryMap] = await Promise.all([
+    getPostsSafe(100),
+    getCategoryMap().catch((): Map<string, Category> => new Map()),
+  ])
+
+  if (allPosts.length === 0) {
     return (
       <div className="container mx-auto px-4 py-20 flex justify-center">
-        <p className="text-muted-foreground text-lg">No articles found. Sync posts from WordPress to populate the newsfeed.</p>
+        <p className="text-muted-foreground text-lg">Articles are temporarily unavailable. Please try again shortly.</p>
       </div>
     )
   }
 
-  // Global tracker to ensure an article NEVER appears twice on the homepage
-  // We use TITLES instead of IDs because the WP database has duplicate IDs for the same article!
-  const usedTitles = new Set<string>();
+  const used = new Set<string>()
 
-  // 1. Hero Section gets first pick of the newest 4 articles
-  const heroFeatured = allPosts[0]
-  usedTitles.add(heroFeatured.title.rendered);
-  
-  const heroList = [];
-  for (const post of allPosts.slice(1)) {
-    if (!usedTitles.has(post.title.rendered)) {
-      heroList.push(post);
-      usedTitles.add(post.title.rendered);
-    }
-    if (heroList.length >= 3) break;
-  }
+  // A front page needs one story that is clearly the story. The previous
+  // layout gave ~35 articles near-equal weight, which leaves a reader with
+  // nowhere to look first.
+  const lead = allPosts[0]
+  used.add(titleKey(lead))
 
-  // 2. Most Popular gets next pick (5 articles)
-  const mostPopular = [];
-  for (const post of allPosts) {
-    if (!usedTitles.has(post.title.rendered)) {
-      mostPopular.push(post);
-      usedTitles.add(post.title.rendered);
-    }
-    if (mostPopular.length >= 5) break;
-  }
+  const secondary = takeUnused(allPosts, 2, used)
+  const topStories = takeUnused(allPosts, 5, used)
+  const mostRecent = takeUnused(allPosts, 6, used)
 
-  // 3. Use the fallback logic to fill categories using ONLY unused posts
-  const solarPosts = fillWithFallbacks(await getPostsByCategorySlug('solar', 10), allPosts, 5, usedTitles);
-  const windPosts = fillWithFallbacks(await getPostsByCategorySlug('wind', 10), allPosts, 6, usedTitles);
-  const marketPosts = fillWithFallbacks(await getPostsByCategorySlug('markets', 10), allPosts, 5, usedTitles);
-  const hydrogenPosts = fillWithFallbacks(await getPostsByCategorySlug('hydrogen', 10), allPosts, 5, usedTitles);
-  
-  // Combine both 'interview' and 'interviews' slugs since the backend has two categories
-  const interviews1 = await getPostsByCategorySlug('interview', 10);
-  const interviews2 = await getPostsByCategorySlug('interviews', 10);
-  const combinedInterviews = [...interviews1, ...interviews2].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  const interviewPosts = fillWithFallbacks(combinedInterviews, allPosts, 3, usedTitles);
+  const wanted = ["solar", "wind", "markets", "hydrogen", "interview", "interviews", "storage", "ev", "policy"]
 
-  const storagePosts = fillWithFallbacks(await getPostsByCategorySlug('storage', 10), allPosts, 3, usedTitles);
-  const evPosts = fillWithFallbacks(await getPostsByCategorySlug('ev', 10), allPosts, 3, usedTitles);
+  const feeds = await Promise.all(
+    wanted.map(async (slug) => {
+      const category = categoryMap.get(slug)
+      if (!category) return [slug, [] as Post[]] as const
+      const posts = await getPosts(10, category.id).catch(() => [] as Post[])
+      return [slug, posts] as const
+    })
+  )
+  const feed = Object.fromEntries(feeds) as Record<string, Post[]>
+
+  const interviews = [...feed.interview, ...feed.interviews].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
+
+  const solar = takeUnused(feed.solar, 5, used)
+  const wind = takeUnused(feed.wind, 5, used)
+  const markets = takeUnused(feed.markets, 5, used)
+  const hydrogen = takeUnused(feed.hydrogen, 3, used)
+  const storage = takeUnused(feed.storage, 3, used)
+  const policy = takeUnused(feed.policy, 3, used)
+  const interviewPosts = takeUnused(interviews, 3, used)
+  const ev = takeUnused(feed.ev, 3, used)
 
   return (
-    <div className="container mx-auto px-4 py-6 overflow-hidden max-w-[1280px]">
-      
-      {/* Top Banner Ad */}
+    <div className="container mx-auto px-4 py-6 max-w-[1280px]">
+
+      {/* Top Banner Ad — fixed box so it cannot shift the page as it loads. */}
       <div className="mb-8 flex flex-col items-center">
-        <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 mb-2">Advertisement</span>
-        <Link href="https://www.iconsolar-en.com/" target="_blank" rel="noopener noreferrer" className="block w-full max-w-[728px] hover:opacity-95 transition-opacity">
-          <img src="/images/banner1.webp" alt="Advertisement" className="w-full h-auto object-contain shadow-sm" />
+        <span className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground/60 mb-2">Advertisement</span>
+        <Link href="https://www.iconsolar-en.com/" target="_blank" rel="noopener noreferrer sponsored" className="block w-full max-w-[728px]">
+          <Image src="/images/banner1.webp" alt="Advertisement" width={728} height={90} className="w-full h-auto rounded-lg" />
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* =========================================================
-            LEFT CONTENT AREA (9 Columns / ~75%)
-            ========================================================= */}
-        <div className="lg:col-span-8 xl:col-span-9 flex flex-col">
-          
-          {/* Hero Section */}
-          <section className="mb-10 pb-10 border-b border-border">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              {/* Massive Featured Article */}
-              <div className="md:col-span-7 xl:col-span-8">
-                <FadeIn>
-                  {heroFeatured && <NewsCard post={heroFeatured} variant="featured" />}
-                </FadeIn>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+
+        {/* ============================ MAIN ============================ */}
+        <div className="lg:col-span-8 xl:col-span-9">
+
+          {/* Lead + two secondaries. The lead image is the LCP element, so it
+              is the only card on the page marked priority. */}
+          <section className="mb-12 pb-10 border-b border-border">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-8">
+                <NewsCard post={lead} variant="lead" priority />
               </div>
-              {/* Vertical List of 3 */}
-              <div className="md:col-span-5 xl:col-span-4 flex flex-col justify-between h-full">
-                {heroList.map((post, i) => (
-                  <FadeIn key={post.id} delay={i * 0.1}>
-                    <NewsCard post={post} variant="thumbnailLeft" />
-                  </FadeIn>
+              <div className="lg:col-span-4 flex flex-col gap-6 lg:border-l lg:border-border lg:pl-8">
+                {secondary.map((post) => (
+                  <NewsCard key={post.id} post={post} variant="default" />
                 ))}
               </div>
             </div>
           </section>
 
-          {/* Category Blocks */}
-          <FeatureListCategory title="Solar Energy" posts={solarPosts} slug="solar" colorClass="border-orange-500" />
-          
-          <SplitColumnCategory title="Wind Energy" posts={windPosts} slug="wind" colorClass="border-blue-500" />
-          
-          <FeatureListCategory title="Markets & Policy" posts={marketPosts} slug="market" colorClass="border-purple-500" />
-          
-          <FeatureListCategory title="Green Hydrogen" posts={hydrogenPosts} slug="hydrogen" colorClass="border-green-500" />
-          
-          {/* 3-Column Categories (e.g. EV, Interviews, Storage) - Inline grid */}
-          <section className="mb-10 pt-8 border-t border-border">
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               <div className="flex flex-col">
-                 <h2 className="text-lg font-bold uppercase tracking-wide text-foreground mb-4 pb-2 border-b-2 border-red-500">Interviews</h2>
-                 {interviewPosts.map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
-               </div>
-               <div className="flex flex-col">
-                 <h2 className="text-lg font-bold uppercase tracking-wide text-foreground mb-4 pb-2 border-b-2 border-teal-500">Storage</h2>
-                 {storagePosts.map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
-               </div>
-               <div className="flex flex-col">
-                 <h2 className="text-lg font-bold uppercase tracking-wide text-foreground mb-4 pb-2 border-b-2 border-blue-400">EVs</h2>
-                 {evPosts.map(post => <NewsCard key={post.id} post={post} variant="thumbnailLeft" />)}
-               </div>
-             </div>
-          </section>
+          {/* Top stories — a scannable list, no images competing with the lead. */}
+          {topStories.length > 0 && (
+            <section className="mb-12">
+              <SectionHeading title="Top Stories" slug="all-news" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                {topStories.map((post) => (
+                  <NewsCard key={post.id} post={post} variant="compact" />
+                ))}
+              </div>
+            </section>
+          )}
 
+          <FadeIn><SectionBlock title="Solar" posts={solar} slug="solar" /></FadeIn>
+          <FadeIn><SectionBlock title="Wind" posts={wind} slug="wind" /></FadeIn>
+          <FadeIn><SectionBlock title="Markets" posts={markets} slug="markets" /></FadeIn>
+          <FadeIn><GridBlock title="Hydrogen" posts={hydrogen} slug="hydrogen" /></FadeIn>
+          <FadeIn><GridBlock title="Storage" posts={storage} slug="storage" /></FadeIn>
+          <FadeIn><GridBlock title="Policy" posts={policy} slug="policy" /></FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+            <section className="mb-12">
+              <SectionHeading title="Interviews" slug="interviews" />
+              {interviewPosts.map((post) => (
+                <NewsCard key={post.id} post={post} variant="thumbnailLeft" />
+              ))}
+            </section>
+            <section className="mb-12">
+              <SectionHeading title="EVs" slug="ev" />
+              {ev.map((post) => (
+                <NewsCard key={post.id} post={post} variant="thumbnailLeft" />
+              ))}
+            </section>
+          </div>
         </div>
 
-        {/* =========================================================
-            RIGHT SIDEBAR (3 Columns / ~25%)
-            ========================================================= */}
-        <div className="lg:col-span-4 xl:col-span-3 flex flex-col space-y-8">
-          
-          {/* Sidebar Ad 1 */}
-          <div className="w-full h-[250px] bg-gradient-to-br from-[#0F5132]/90 to-[#0F5132] border border-border/50 flex flex-col items-center justify-center relative overflow-hidden group hover:shadow-xl transition-all duration-300">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500 mix-blend-overlay"></div>
-            <span className="text-[9px] uppercase tracking-widest text-white/50 absolute top-2 left-2 z-10">Advertisement</span>
-            <div className="flex flex-col items-center justify-center text-center p-6 z-10 w-full h-full border-[10px] border-white/5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-400 mb-3 drop-shadow-md"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-              <span className="font-black text-base text-white uppercase tracking-widest mb-1 drop-shadow-md">Book Your</span>
-              <span className="font-black text-2xl text-yellow-400 uppercase tracking-widest mb-4 drop-shadow-lg leading-none">Ad Space</span>
-              <a href="mailto:hello@renewableobserver.com" className="bg-white/10 hover:bg-white text-white hover:text-[#0F5132] text-[11px] font-bold uppercase tracking-widest py-2 px-4 rounded-full border border-white/30 backdrop-blur-sm transition-all duration-300 shadow-lg">Contact Us</a>
-            </div>
-            <a href="mailto:hello@renewableobserver.com" className="absolute inset-0 z-20"><span className="sr-only">Book Ad Space</span></a>
+        {/* =========================== SIDEBAR =========================== */}
+        <aside className="lg:col-span-4 xl:col-span-3 flex flex-col gap-8">
+
+          {/* Newsletter first: the highest-value action on the page. */}
+          <div className="bg-muted/40 border border-border rounded-lg p-5">
+            <h2 className="font-serif font-bold text-lg mb-1.5 text-foreground">Daily Briefing</h2>
+            <p className="text-[13px] text-muted-foreground mb-4 leading-relaxed">
+              The day&rsquo;s renewable energy news, in your inbox each morning.
+            </p>
+            <SubscribeForm variant="footer" />
           </div>
 
-          {/* Join Newsletter */}
-          <div className="bg-[#f8f9fa] border border-border p-6 shadow-sm">
-            <h4 className="font-bold text-lg mb-2 text-foreground uppercase tracking-wide border-l-4 border-[#e31837] pl-2">Join Our Newsletter</h4>
-            <p className="text-xs text-muted-foreground mb-4">Get the latest news and updates directly in your inbox.</p>
-            <input type="text" placeholder="Your Name" className="w-full px-3 py-2 text-sm border border-border mb-2 focus:outline-none focus:border-[#e31837]" />
-            <input type="email" placeholder="Your Email" className="w-full px-3 py-2 text-sm border border-border mb-3 focus:outline-none focus:border-[#e31837]" />
-            <button className="w-full bg-[#e31837] hover:bg-red-700 text-white font-bold text-xs uppercase tracking-widest py-3 transition-colors">
-              Join Now
-            </button>
-          </div>
-
-          {/* Most Popular */}
-          <div>
-            <h3 className="font-bold text-sm uppercase tracking-wider border-b-2 border-black pb-2 mb-4 text-foreground">
-              Most Popular
-            </h3>
-            <div className="flex flex-col gap-0">
-              {mostPopular.map((post, i) => (
-                <FadeIn key={post.id} delay={i * 0.1}>
-                  <NewsCard post={post} variant="thumbnailLeft" />
-                </FadeIn>
+          {/* Latest — a dense list gives crawlers more internal links per pixel
+              than a card grid, and readers a reason to keep scrolling. */}
+          {mostRecent.length > 0 && (
+            <div>
+              <h2 className="font-serif text-lg font-bold text-foreground pb-2 mb-3 border-b-2 border-primary">
+                Latest
+              </h2>
+              {mostRecent.map((post) => (
+                <NewsCard key={post.id} post={post} variant="textOnly" />
               ))}
             </div>
+          )}
+
+          {/* House ad. Fixed height so it reserves its own space. */}
+          <div className="w-full h-[250px] bg-gradient-to-br from-[#0F5132]/95 to-[#0F5132] border border-border rounded-lg flex flex-col items-center justify-center relative overflow-hidden group">
+            <span className="text-[9px] uppercase tracking-[0.14em] text-white/50 absolute top-2 left-3">Advertisement</span>
+            <div className="flex flex-col items-center text-center px-6">
+              <span className="font-sans font-bold text-xs text-white/70 uppercase tracking-[0.16em] mb-1">Book your</span>
+              <span className="font-serif font-bold text-3xl text-yellow-400 mb-4 leading-none">Ad Space</span>
+              <span className="bg-white/10 group-hover:bg-white text-white group-hover:text-[#0F5132] text-[11px] font-bold uppercase tracking-[0.12em] py-2 px-4 rounded-full border border-white/30 transition-colors">
+                Contact Us
+              </span>
+            </div>
+            <a href="mailto:hello@renewableobserver.com" className="absolute inset-0 z-20">
+              <span className="sr-only">Book ad space</span>
+            </a>
           </div>
 
-          {/* Sidebar Ad 2 */}
-          <div className="w-full mt-8 sticky top-24 flex flex-col items-center">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 mb-2">Advertisement</span>
-            <Link href="#" className="block w-full hover:opacity-95 transition-opacity">
-              <img src="/images/banner2.webp" alt="Advertisement" className="w-full h-auto object-contain shadow-sm border border-border/50" />
-            </Link>
+          <div className="sticky top-24 flex flex-col items-center">
+            <span className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground/60 mb-2">Advertisement</span>
+            <Image src="/images/banner2.webp" alt="Advertisement" width={300} height={250} className="w-full h-auto rounded-lg border border-border" />
           </div>
 
-        </div>
-        
+        </aside>
       </div>
     </div>
   )

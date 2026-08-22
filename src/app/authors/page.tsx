@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/authors" },
+ openGraph: ogFor("/authors"),
  title: "Authors & Contributors | Renewable Observer Editorial Team",
  description: "Meet the authors, contributors, analysts, and editorial professionals behind Renewable Observer. Learn about our expertise, editorial standards, and commitment to renewable energy journalism.",
 }
@@ -37,7 +40,7 @@ export default function AuthorsPage() {
  </FadeIn>
 
  <FadeIn delay={0.2}>
- <section className="bg-background border-y border-border p-8 border">
+ <section className="bg-muted/40 border border-border rounded-lg p-8">
  <h2 className="text-2xl font-bold text-foreground mb-4">Our Editorial Team</h2>
  <p className="text-muted-foreground mb-4">Renewable Observer is supported by a growing network of:</p>
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-semibold text-foreground mb-4">
@@ -69,7 +72,7 @@ export default function AuthorsPage() {
  <p className="text-muted-foreground">Renewable Observer contributors cover a broad range of renewable energy and sustainability topics.</p>
  
  <div className="grid sm:grid-cols-2 gap-6 not-prose mt-6">
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Solar & Wind Energy</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Utility-Scale & Rooftop Solar</li>
@@ -78,7 +81,7 @@ export default function AuthorsPage() {
  <li>Turbine Manufacturing & Market Trends</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Storage & Hydrogen</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Battery Energy Storage Systems</li>
@@ -87,7 +90,7 @@ export default function AuthorsPage() {
  <li>Green Ammonia & Infrastructure</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Hydropower & Bioenergy</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Hydroelectric & Pumped Storage</li>
@@ -95,7 +98,7 @@ export default function AuthorsPage() {
  <li>Waste-to-Energy & Biofuels</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Geothermal & Ocean Energy</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Exploration Technologies</li>
@@ -103,7 +106,7 @@ export default function AuthorsPage() {
  <li>Tidal & Wave Energy</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Electric Mobility</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Electric Vehicles</li>
@@ -112,7 +115,7 @@ export default function AuthorsPage() {
  <li>Battery Innovation</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Sustainability and ESG</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Corporate Sustainability</li>
@@ -180,7 +183,7 @@ export default function AuthorsPage() {
  </FadeIn>
 
  <FadeIn delay={0.8}>
- <section className="bg-background border-t-4 border-t-primary border-x border-b border-border border border-primary/20 p-8 text-center md:text-left mt-12">
+ <section className="bg-primary/5 border border-primary/20 border-t-4 border-t-primary rounded-lg p-8 text-center md:text-left mt-12">
  <h2 className="text-2xl font-bold text-primary mb-4">Contact Our Editorial Team</h2>
  <p className="text-muted-foreground mb-6">Questions regarding authorship, contributor opportunities, editorial standards, or content submissions may be directed to:</p>
  <div className="grid md:grid-cols-2 gap-6">

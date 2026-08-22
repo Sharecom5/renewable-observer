@@ -3,16 +3,13 @@
 import * as React from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
-import { Moon, Sun, Menu, Search, Flame } from "lucide-react"
+import { Moon, Sun, Menu, Search } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
@@ -29,15 +26,15 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0 z-10">
           <div className="flex flex-col items-center w-full">
-            <span className="text-[36px] font-extrabold tracking-wide text-[#0F5132] leading-none font-sans">
+            <span className="text-[36px] font-extrabold tracking-wide text-[#0F5132] dark:text-primary leading-none font-sans">
               RENEWABLE
             </span>
             <div className="flex items-center gap-3 w-full mt-1.5">
-              <div className="h-[2px] flex-1 bg-[#0F5132]/40"></div>
-              <span className="text-[12px] font-bold tracking-[0.3em] whitespace-nowrap text-[#0F5132]">
+              <div className="h-[2px] flex-1 bg-[#0F5132]/40 dark:bg-primary/40"></div>
+              <span className="text-[12px] font-bold tracking-[0.3em] whitespace-nowrap text-[#0F5132] dark:text-primary">
                 OBSERVER
               </span>
-              <div className="h-[2px] flex-1 bg-[#0F5132]/40"></div>
+              <div className="h-[2px] flex-1 bg-[#0F5132]/40 dark:bg-primary/40"></div>
             </div>
           </div>
         </Link>
@@ -62,10 +59,10 @@ export function Header() {
         {/* Mobile: Centered Compact Logo */}
         <div className="flex md:hidden items-center justify-center shrink-0">
           <Link href="/" className="flex flex-col items-center">
-            <span className="text-[20px] font-extrabold tracking-widest text-[#0F5132] leading-none font-sans">
+            <span className="text-[20px] font-extrabold tracking-widest text-[#0F5132] dark:text-primary leading-none font-sans">
               RENEWABLE
             </span>
-            <span className="text-[8px] font-bold tracking-[0.3em] whitespace-nowrap text-[#0F5132] mt-1 uppercase">
+            <span className="text-[8px] font-bold tracking-[0.3em] whitespace-nowrap text-[#0F5132] dark:text-primary mt-1 uppercase">
               Observer
             </span>
           </Link>

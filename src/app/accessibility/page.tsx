@@ -1,8 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
- title: "Accessibility Statement | Renewable Observer",
+ alternates: { canonical: "/accessibility" },
+ openGraph: ogFor("/accessibility"),
+ title: "Accessibility Statement",
  description: "Read Renewable Observer's Accessibility Statement. We are committed to ensuring our website is accessible and inclusive to all individuals.",
 }
 

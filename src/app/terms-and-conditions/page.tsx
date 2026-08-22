@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/terms-and-conditions" },
+ openGraph: ogFor("/terms-and-conditions"),
  title: "Terms & Conditions | Renewable Observer Website Terms of Use",
  description: "Read the Terms & Conditions governing the use of Renewable Observer, including content usage, intellectual property rights, user responsibilities, disclaimers, and website policies.",
 }
@@ -185,7 +188,7 @@ export default function TermsAndConditionsPage() {
  <p>These Terms & Conditions shall be interpreted in accordance with applicable laws and accepted business practices. If any provision is found to be unenforceable, the remaining provisions shall continue in full force and effect.</p>
  </section>
 
- <section className="bg-background border-y border-border p-8 border mt-12 text-center sm:text-left">
+ <section className="bg-muted/40 border border-border rounded-lg p-8 mt-12 text-center sm:text-left">
  <h2 className="text-2xl font-bold text-foreground mb-6">Contact Information</h2>
  <p className="mb-6">Questions regarding these Terms & Conditions may be directed to:</p>
  <div className="grid sm:grid-cols-2 gap-6 mb-6">

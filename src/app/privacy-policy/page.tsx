@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/privacy-policy" },
+ openGraph: ogFor("/privacy-policy"),
  title: "Privacy Policy | Renewable Observer Data Protection & Privacy Practices",
  description: "Read the Renewable Observer Privacy Policy to understand how we collect, use, protect, and manage personal information, cookies, analytics data, and communication preferences.",
 }
@@ -48,7 +51,7 @@ export default function PrivacyPolicyPage() {
 
  <section>
  <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Cookies and Similar Technologies</h2>
- <p>Renewable Observer may use cookies and related technologies to improve functionality and user experience. Cookies are small files stored on a user's device that help websites remember preferences and improve performance.</p>
+ <p>Renewable Observer may use cookies and related technologies to improve functionality and user experience. Cookies are small files stored on a user’s device that help websites remember preferences and improve performance.</p>
  <p>Cookies may be used for: Website Functionality, Security, Analytics, Performance Monitoring, User Preferences, and Advertising Purposes.</p>
  <p>Users can manage cookie preferences through their browser settings. Disabling cookies may affect certain website features and functionality.</p>
  </section>
@@ -107,7 +110,7 @@ export default function PrivacyPolicyPage() {
  </section>
 
  <section>
- <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Children's Privacy</h2>
+ <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Children’s Privacy</h2>
  <p>Renewable Observer is intended primarily for industry professionals, businesses, researchers, and general audiences interested in renewable energy and sustainability. We do not knowingly collect personal information from children. If information is discovered to have been collected from a child in violation of applicable laws, appropriate action will be taken.</p>
  </section>
 
@@ -116,7 +119,7 @@ export default function PrivacyPolicyPage() {
  <p>Renewable Observer may update this Privacy Policy periodically. Updates may occur due to: Legal Requirements, Industry Developments, Technology Changes, Business Operations, or Service Improvements. Updated versions will be published on this page. Visitors are encouraged to review this policy regularly.</p>
  </section>
 
- <section className="bg-background border-y border-border p-8 border mt-12 text-center sm:text-left">
+ <section className="bg-muted/40 border border-border rounded-lg p-8 mt-12 text-center sm:text-left">
  <h2 className="text-2xl font-bold text-foreground mb-6">Contact Us</h2>
  <p className="mb-6">Questions regarding this Privacy Policy may be directed to Renewable Observer.</p>
  <div className="grid sm:grid-cols-2 gap-6 mb-6">

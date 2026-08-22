@@ -1,9 +1,17 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import { Calendar, MapPin, ArrowRight } from "lucide-react"
+import { ogFor } from "@/lib/seo"
 
+// Withheld from the index: the events below are placeholder entries with
+// invented dates and venues. Listing fictitious events as real ones is both an
+// indexing liability and a reader-trust problem. Remove the robots block once
+// this page carries genuine listings.
 export const metadata = {
- title: "Events & Summits | Renewable Observer",
+ alternates: { canonical: "/events" },
+ openGraph: ogFor("/events"),
+ title: "Events & Summits",
  description: "Upcoming industry conferences and webinars.",
+ robots: { index: false, follow: true },
 }
 
 export default function EventsPage() {
@@ -28,7 +36,7 @@ export default function EventsPage() {
  <div className="space-y-6 max-w-5xl mx-auto">
  {events.map((event, i) => (
  <FadeIn key={i} delay={0.1 * i}>
- <div className={`border p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover: ${event.highlight ? 'bg-background border-t-4 border-t-primary border-x border-b border-border border-primary/30' : 'bg-background'}`}>
+ <div className={`rounded-lg p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors ${event.highlight ? 'bg-primary/5 border border-primary/20 border-t-4 border-t-primary' : 'bg-muted/40 border border-border hover:border-primary/30'}`}>
  <div className="md:w-2/3">
  <div className="flex items-center gap-3 mb-3">
  <span className={`text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${event.type === 'Virtual' ? 'bg-secondary/10 text-secondary' : 'bg-accent/20 text-accent-foreground'}`}>

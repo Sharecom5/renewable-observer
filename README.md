@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Renewable Observer
 
-## Getting Started
+Next.js 16 frontend for renewableobserver.com, reading from a headless
+WordPress backend at `admin.renewableobserver.com`.
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill it in
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Every environment variable the app reads is listed in `.env.example`. The
+indexing and newsletter features return a `503` (rather than failing quietly)
+when their variables are missing, so an unset value is visible in the response
+instead of looking like a rejected caller.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+Articles and categories share the root namespace: `/[slug]` resolves a slug to
+an article first, then a category, then 404s. The hundred most recent articles
+are prerendered via `generateStaticParams`; the rest render on demand and cache.
 
-To learn more about Next.js, take a look at the following resources:
+`src/lib/api.ts` is the only module that talks to WordPress. Two conventions
+there are load-bearing:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **No placeholder content, ever.** The API layer used to fall back to mock
+  articles when a request failed, which put twenty invented URLs into
+  `sitemap.xml` and served them at HTTP 200 with `index, follow`. Functions now
+  throw a `BackendUnavailableError` instead.
+- **404 and 5xx mean different things.** `getPostBySlug` returns `null` only
+  when WordPress confirms the article does not exist; a backend failure throws.
+  A 404 permanently removes a URL from search, a 5xx tells crawlers to retry.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Use the `*Safe` variants only where an outage should thin the page rather than
+break it — the breaking-news strip in the root layout appears on every route, so
+letting it throw would take down the static policy pages too.
 
-## Deploy on Vercel
+`src/lib/site.ts` holds the canonical site URL. Import it rather than writing
+the domain out again.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+
+# Copy recent posts from the mirror site. Deduplicates on title, because
+# WordPress assigns a new -2 / -3 slug on collision and a slug comparison
+# therefore re-imports the whole feed on every run.
+WP_USER=… WP_APP_PASS=… npm run sync-posts
+
+# Report duplicate articles already in the backend. Dry run by default;
+# pass -- --apply to move them to trash, keeping the oldest of each set.
+WP_USER=… WP_APP_PASS=… npm run dedupe-posts
+```
+
+`WP_APP_PASS` is a WordPress *application password*, issued under
+WP Admin → Users → Profile. Never the account password, and never committed.
+
+## Troubleshooting
+
+**`Cannot find module '../../src/app/<route>/page.js'` during typecheck** —
+stale generated validators in `.next` for a route that has since been deleted.
+Run `rm -rf .next` and rebuild.
+
+**`Next.js inferred your workspace root`** — a lockfile above this directory is
+outranking the project's own. `turbopack.root` in `next.config.ts` pins it.

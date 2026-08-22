@@ -1,8 +1,11 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
- title: "Sitemap | Renewable Observer",
+ alternates: { canonical: "/sitemap" },
+ openGraph: ogFor("/sitemap"),
+ title: "Sitemap",
  description: "Navigate Renewable Observer. Find links to our news categories, reports, events, and corporate policies.",
 }
 
@@ -36,13 +39,27 @@ export default function SitemapPage() {
  <div>
  <h2 className="text-2xl font-bold text-foreground mb-4 pb-2 border-b">News Categories</h2>
  <ul className="space-y-3 font-medium text-muted-foreground">
- <li><Link href="/category/solar" className="hover:text-primary transition-colors">Solar Energy</Link></li>
- <li><Link href="/category/wind" className="hover:text-primary transition-colors">Wind Energy</Link></li>
- <li><Link href="/category/storage" className="hover:text-primary transition-colors">Energy Storage</Link></li>
- <li><Link href="/category/hydrogen" className="hover:text-primary transition-colors">Green Hydrogen</Link></li>
- <li><Link href="/category/ev" className="hover:text-primary transition-colors">Electric Mobility</Link></li>
- <li><Link href="/category/finance" className="hover:text-primary transition-colors">Finance & Investment</Link></li>
- <li><Link href="/category/policy" className="hover:text-primary transition-colors">Policy & Regulation</Link></li>
+ {/* Slugs verified against the categories the backend actually publishes.
+     These previously carried a /category/ prefix from an older routing
+     scheme, so every link on this page 404'd. */}
+ <li><Link href="/solar" className="hover:text-primary transition-colors">Solar Energy</Link></li>
+ <li><Link href="/solar-pv" className="hover:text-primary transition-colors">Solar PV</Link></li>
+ <li><Link href="/solar-manufacturing" className="hover:text-primary transition-colors">Solar Manufacturing</Link></li>
+ <li><Link href="/wind" className="hover:text-primary transition-colors">Wind Energy</Link></li>
+ <li><Link href="/wind-power" className="hover:text-primary transition-colors">Wind Power</Link></li>
+ <li><Link href="/storage" className="hover:text-primary transition-colors">Energy Storage</Link></li>
+ <li><Link href="/hydrogen" className="hover:text-primary transition-colors">Green Hydrogen</Link></li>
+ <li><Link href="/green-ammonia-hydrogen" className="hover:text-primary transition-colors">Green Ammonia & Hydrogen</Link></li>
+ <li><Link href="/ev" className="hover:text-primary transition-colors">Electric Mobility</Link></li>
+ <li><Link href="/sustainable-transport" className="hover:text-primary transition-colors">Sustainable Transport</Link></li>
+ <li><Link href="/investment" className="hover:text-primary transition-colors">Investment</Link></li>
+ <li><Link href="/markets" className="hover:text-primary transition-colors">Markets</Link></li>
+ <li><Link href="/policy" className="hover:text-primary transition-colors">Policy & Regulation</Link></li>
+ <li><Link href="/business" className="hover:text-primary transition-colors">Business</Link></li>
+ <li><Link href="/international-news" className="hover:text-primary transition-colors">International News</Link></li>
+ <li><Link href="/interviews" className="hover:text-primary transition-colors">Interviews</Link></li>
+ <li><Link href="/renewable-energy" className="hover:text-primary transition-colors">Renewable Energy</Link></li>
+ <li><Link href="/all-news" className="hover:text-primary transition-colors">All News</Link></li>
  </ul>
  </div>
  </div>

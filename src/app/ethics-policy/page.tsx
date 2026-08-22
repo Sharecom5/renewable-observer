@@ -1,8 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
- title: "Ethics Policy | Renewable Observer",
+ alternates: { canonical: "/ethics-policy" },
+ openGraph: ogFor("/ethics-policy"),
+ title: "Ethics Policy",
  description: "Read Renewable Observer's Ethics Policy regarding editorial independence, conflicts of interest, transparency standards, and source handling.",
 }
 
@@ -28,7 +30,7 @@ export default function EthicsPolicyPage() {
  <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Editorial Independence</h2>
  <p>Editorial decisions at Renewable Observer are made entirely independent of commercial, political, or corporate influence. The separation between our editorial team and our advertising/business operations is absolute.</p>
  <ul className="list-disc pl-5">
- <li><strong>No Pay-for-Play:</strong> We do not accept payment in exchange for editorial coverage. Any content that is sponsored or paid for by an advertiser is explicitly and clearly marked as "Sponsored Content" or "Advertisement."</li>
+ <li><strong>No Pay-for-Play:</strong> We do not accept payment in exchange for editorial coverage. Any content that is sponsored or paid for by an advertiser is explicitly and clearly marked as “Sponsored Content” or “Advertisement.”</li>
  <li><strong>No Outside Approvals:</strong> Subjects of our reporting—including companies, government bodies, and PR representatives—are not permitted to review or approve articles prior to publication. We may verify quotes or technical data, but the final editorial direction rests solely with our editors.</li>
  </ul>
  </section>

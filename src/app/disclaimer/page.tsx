@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/disclaimer" },
+ openGraph: ogFor("/disclaimer"),
  title: "Disclaimer | Renewable Observer Content & Information Disclaimer",
  description: "Read the Renewable Observer Disclaimer regarding website content, renewable energy news, market intelligence, third-party information, investment-related content, and limitations of liability.",
 }
@@ -128,7 +131,7 @@ export default function DisclaimerPage() {
 
  <section>
  <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">No Warranties & Limitation of Liability</h2>
- <p>Renewable Observer provides information on an "as is" and "as available" basis. We make no warranties regarding: Accuracy, Completeness, Reliability, Availability, Performance, Suitability, or Non-Infringement. Users access and use the website at their own risk.</p>
+ <p>Renewable Observer provides information on an “as is” and “as available” basis. We make no warranties regarding: Accuracy, Completeness, Reliability, Availability, Performance, Suitability, or Non-Infringement. Users access and use the website at their own risk.</p>
  <p>To the fullest extent permitted by applicable law, Renewable Observer shall not be liable for: Direct Damages, Indirect Damages, Incidental Damages, Consequential Damages, Business Losses, Financial Losses, Lost Opportunities, Data Loss, or Service Interruptions arising from: Website Usage, Reliance on Published Information, Third-Party Content, Technical Errors, or External Resources.</p>
  <p className="font-semibold text-foreground">Users assume full responsibility for how they use information obtained from the website.</p>
  </section>
@@ -145,7 +148,7 @@ export default function DisclaimerPage() {
  <p>Updated versions will be published on this page. Continued use of the website constitutes acceptance of any revised Disclaimer.</p>
  </section>
 
- <section className="bg-background border-y border-border p-8 border mt-12 text-center sm:text-left">
+ <section className="bg-muted/40 border border-border rounded-lg p-8 mt-12 text-center sm:text-left">
  <h2 className="text-2xl font-bold text-foreground mb-6">Contact Information</h2>
  <p className="mb-6">Questions regarding this Disclaimer may be directed to:</p>
  <div className="grid sm:grid-cols-2 gap-6 mb-6">

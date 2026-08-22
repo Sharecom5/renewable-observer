@@ -1,10 +1,18 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import { ArrowUpRight, TrendingUp, Clock } from "lucide-react"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
+// Withheld from the index until this page shows real articles. Every entry
+// below is placeholder copy linking to "#", and publishing invented headlines
+// as editorial content is exactly the thin-content pattern that draws manual
+// action on a news site. Remove the robots block once it reads live data.
 export const metadata = {
- title: "Trending News | Renewable Observer",
+ alternates: { canonical: "/trending" },
+ openGraph: ogFor("/trending"),
+ title: "Trending News",
  description: "The most read and shared articles in the renewable energy sector.",
+ robots: { index: false, follow: true },
 }
 
 export default function TrendingPage() {
@@ -38,7 +46,7 @@ export default function TrendingPage() {
  <div className="lg:col-span-2 space-y-4">
  {trendingArticles.map((article, i) => (
  <FadeIn key={i} delay={0.05 * i}>
- <Link href="#" className="group flex gap-6 p-4 hover:bg-background border-y border-border/50 transition-colors border border-transparent hover:border-border">
+ <Link href="#" className="group flex gap-6 p-4 rounded-lg border border-transparent hover:bg-muted/40 hover:border-border transition-colors">
  <div className="flex-shrink-0 w-12 text-center">
  <span className={`text-4xl font-black ${i < 3 ? 'text-accent' : 'text-muted-foreground/30'}`}>
  {article.rank}
@@ -64,7 +72,7 @@ export default function TrendingPage() {
  <h3 className="font-bold text-base mb-6 border-b pb-4 text-foreground">Hot Topics</h3>
  <div className="flex flex-wrap gap-2">
  {['#GridStorage', '#IRA', '#OffshoreWind', '#GreenHydrogen', '#CarbonTax', '#SupplyChain', '#ProjectFinance'].map(tag => (
- <Link key={tag} href="#" className="bg-background border-y border-border hover:bg-primary hover:text-primary-foreground text-foreground px-4 py-2 text-sm font-semibold transition-colors">
+ <Link key={tag} href="#" className="bg-muted/40 border border-border rounded-full hover:bg-primary hover:text-primary-foreground hover:border-primary text-foreground px-4 py-2 text-sm font-semibold transition-colors">
  {tag}
  </Link>
  ))}

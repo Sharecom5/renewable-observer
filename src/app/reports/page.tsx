@@ -1,9 +1,16 @@
+import Image from "next/image"
 import { FadeIn } from "@/components/ui/fade-in"
 import { Download, FileText, Lock } from "lucide-react"
+import { ogFor } from "@/lib/seo"
 
+// Withheld from the index: the four reports below are placeholder entries, not
+// real publications. Remove the robots block once they exist.
 export const metadata = {
- title: "Industry Reports | Renewable Observer",
+ alternates: { canonical: "/reports" },
+ openGraph: ogFor("/reports"),
+ title: "Industry Reports",
  description: "Download premium whitepapers and market analyses.",
+ robots: { index: false, follow: true },
 }
 
 export default function ReportsPage() {
@@ -30,7 +37,7 @@ export default function ReportsPage() {
  <FadeIn key={i} delay={0.1 * i} className="group">
  <div className="bg-background border overflow-hidden flex flex-col md:flex-row h-full hover:border-primary/50 transition-colors">
  <div className="md:w-2/5 relative h-48 md:h-auto overflow-hidden">
- <img src={report.image} alt={report.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" />
+ <Image src={report.image} alt={report.title} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
  <div className="absolute inset-0 bg-black/10" />
  </div>
  <div className="md:w-3/5 p-6 flex flex-col justify-between">

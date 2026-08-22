@@ -1,8 +1,11 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
- title: "Corrections Policy | Renewable Observer",
+ alternates: { canonical: "/corrections-policy" },
+ openGraph: ogFor("/corrections-policy"),
+ title: "Corrections Policy",
  description: "Learn about Renewable Observer's commitment to accuracy, our process for handling corrections, and how to report an error.",
 }
 
@@ -46,7 +49,7 @@ export default function CorrectionsPolicyPage() {
  <p>If the information is found to be factually incorrect, we will:</p>
  <ul className="list-disc pl-5">
  <li><strong>Update the Content:</strong> The factual error within the body of the article will be corrected immediately.</li>
- <li><strong>Issue an Editor's Note:</strong> We will append a clear, dated correction statement to the article—typically at the bottom—explaining what was changed and why.</li>
+ <li><strong>Issue an Editor’s Note:</strong> We will append a clear, dated correction statement to the article—typically at the bottom—explaining what was changed and why.</li>
  <li><strong>Social Media & Newsletters:</strong> If an error was propagated through our newsletters or social channels and significantly altered the understanding of a major story, we will issue a correction across those platforms as well.</li>
  </ul>
  </section>
@@ -55,9 +58,9 @@ export default function CorrectionsPolicyPage() {
  <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Types of Content Updates</h2>
  <p>We distinguish between factual corrections, clarifications, and content updates:</p>
  <ul className="list-disc pl-5 space-y-4">
- <li><strong>Corrections:</strong> Used when an article contains a factual error (e.g., incorrect financial figures, misstated technology capabilities, or wrong names/titles). These require a formal Editor's Note.</li>
+ <li><strong>Corrections:</strong> Used when an article contains a factual error (e.g., incorrect financial figures, misstated technology capabilities, or wrong names/titles). These require a formal Editor’s Note.</li>
  <li><strong>Clarifications:</strong> Used when the facts are technically correct, but the phrasing may inadvertently mislead readers or lack necessary context. A note may be added to clarify the context.</li>
- <li><strong>Updates:</strong> The renewable energy industry moves quickly. If a developing story changes (e.g., a policy is officially passed after we report it is being drafted), we will add the new information and mark the article as "Updated" with the new timestamp. This does not constitute an error, but rather ongoing coverage.</li>
+ <li><strong>Updates:</strong> The renewable energy industry moves quickly. If a developing story changes (e.g., a policy is officially passed after we report it is being drafted), we will add the new information and mark the article as “Updated” with the new timestamp. This does not constitute an error, but rather ongoing coverage.</li>
  </ul>
  </section>
 

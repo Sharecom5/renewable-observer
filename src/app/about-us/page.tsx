@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/about-us" },
+ openGraph: ogFor("/about-us"),
  title: "About Renewable Observer | Global Renewable Energy Media Company",
  description: "Learn about Renewable Observer, a renewable energy media company delivering trusted news, market intelligence, sustainability insights, industry reports, and clean energy coverage worldwide.",
 }
@@ -30,16 +33,16 @@ export default function AboutPage() {
  </FadeIn>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto mb-20">
- <FadeIn delay={0.1} className="bg-background border p-8 ">
+ <FadeIn delay={0.1} className="bg-background border p-8">
  <h2 className="text-2xl font-bold mb-4 text-foreground">Our Vision</h2>
  <div className="text-muted-foreground space-y-4">
  <p>Renewable Observer envisions a future where reliable information helps accelerate the transition to sustainable energy systems worldwide.</p>
  <p>We believe that access to high-quality industry intelligence enables better decision-making, encourages innovation, supports responsible investment, strengthens policy development, and promotes long-term sustainability.</p>
- <p>Our vision is to become one of the world's most trusted renewable energy media platforms by delivering accurate reporting, meaningful insights, and valuable resources that empower stakeholders across the clean energy sector.</p>
+ <p>Our vision is to become one of the world’s most trusted renewable energy media platforms by delivering accurate reporting, meaningful insights, and valuable resources that empower stakeholders across the clean energy sector.</p>
  </div>
  </FadeIn>
 
- <FadeIn delay={0.2} className="bg-background border p-8 ">
+ <FadeIn delay={0.2} className="bg-background border p-8">
  <h2 className="text-2xl font-bold mb-4 text-foreground">Our Mission</h2>
  <div className="text-muted-foreground space-y-4">
  <p>Our mission is to provide independent, accurate, and informative coverage of renewable energy and sustainability-related developments worldwide.</p>
@@ -188,7 +191,7 @@ export default function AboutPage() {
  </div>
  </section>
 
- <section className="bg-background border-y border-border p-8 md:p-10 border">
+ <section className="bg-muted/40 border border-border rounded-lg p-8 md:p-10">
  <h2 className="text-2xl font-bold mb-6 text-foreground">Supporting the Renewable Energy Community</h2>
  <p className="text-muted-foreground mb-4">Renewable Observer serves a diverse audience, including Renewable Energy Developers, EPC Companies, Technology Providers, Manufacturers, Investors, Utilities, Policymakers, Consultants, Researchers, Academic Institutions, Sustainability Professionals, and Industry Associations.</p>
  <p className="text-muted-foreground mb-8 pb-8 border-b border-border">Our platform is designed to foster knowledge sharing, collaboration, and informed discussion across the renewable energy ecosystem.</p>
@@ -218,7 +221,7 @@ export default function AboutPage() {
  <p>While headquartered in Noida, India, Renewable Observer serves a truly global audience.</p>
  <p>Our coverage spans Asia Pacific, Europe, North America, Latin America, Middle East, and Africa. By providing international perspectives, we help readers understand how renewable energy markets are evolving across different regions and regulatory environments.</p>
  </div>
- <div className="bg-background border p-8 ">
+ <div className="bg-background border p-8">
  <h3 className="font-bold text-base mb-4 text-foreground">Contact Renewable Observer</h3>
  <p className="text-sm text-muted-foreground mb-6">We welcome feedback, press releases, partnership inquiries, story suggestions, and industry insights.</p>
  <ul className="space-y-4 text-sm mb-8">

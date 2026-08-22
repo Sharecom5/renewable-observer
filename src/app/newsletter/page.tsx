@@ -1,8 +1,11 @@
 import { SubscribeForm } from "@/components/ui/subscribe-form";
 import { Metadata } from "next";
+import { ogFor } from "@/lib/seo"
 
 export const metadata: Metadata = {
-  title: "Subscribe to Our Newsletter | Renewable Observer",
+  alternates: { canonical: "/newsletter" },
+  openGraph: ogFor("/newsletter"),
+  title: "Subscribe to Our Newsletter",
   description: "Get the latest renewable energy news, market trends, and exclusive insights delivered straight to your inbox.",
 };
 
@@ -16,7 +19,7 @@ export default function NewsletterPage() {
         </p>
       </div>
 
-      <div className="w-full max-w-xl bg-card border border-border shadow-lg rounded-2xl p-8 md:p-12 relative overflow-hidden">
+      <div className="w-full max-w-xl bg-card border border-border shadow-sm rounded-lg p-8 md:p-12 relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>

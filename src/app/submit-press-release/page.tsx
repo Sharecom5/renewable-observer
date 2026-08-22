@@ -1,8 +1,11 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
- title: "Submit a Press Release | Renewable Observer",
+ alternates: { canonical: "/submit-press-release" },
+ openGraph: ogFor("/submit-press-release"),
+ title: "Submit a Press Release",
  description: "Learn how to submit your renewable energy press releases, product announcements, and corporate news to Renewable Observer.",
 }
 
@@ -23,7 +26,7 @@ export default function SubmitPressReleasePage() {
  <p className="text-base leading-relaxed mb-6 font-medium text-foreground">Renewable Observer is a leading destination for news, market intelligence, and industry updates across the renewable energy sector. We welcome press releases from companies, agencies, and organizations driving the global energy transition.</p>
  </section>
 
- <section className="bg-background border-y border-border p-8 border">
+ <section className="bg-muted/40 border border-border rounded-lg p-8">
  <h2 className="text-2xl font-bold text-foreground mb-4">Submission Guidelines</h2>
  <p>To ensure your press release is reviewed and considered for publication, please adhere to the following guidelines:</p>
  <ul className="list-disc pl-5">
@@ -71,7 +74,7 @@ export default function SubmitPressReleasePage() {
  <p>We reserve the right to edit press releases for length, clarity, and adherence to our editorial style guide before publication.</p>
  </section>
 
- <section className="bg-background border-t-4 border-t-primary border-x border-b border-border border border-primary/20 p-8 text-center md:text-left mt-12">
+ <section className="bg-primary/5 border border-primary/20 border-t-4 border-t-primary rounded-lg p-8 text-center md:text-left mt-12">
  <h2 className="text-2xl font-bold text-foreground mb-4">Where to Send</h2>
  <p className="text-muted-foreground mb-6">Please email your press releases and media alerts directly to our news desk:</p>
  <div>

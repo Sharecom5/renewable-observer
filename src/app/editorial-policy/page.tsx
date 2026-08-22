@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/editorial-policy" },
+ openGraph: ogFor("/editorial-policy"),
  title: "Editorial Policy | Renewable Observer Standards for Accuracy, Independence & Transparency",
  description: "Learn about Renewable Observer's editorial standards, fact-checking practices, corrections policy, content guidelines, transparency principles, and commitment to independent renewable energy journalism.",
 }
@@ -34,7 +37,7 @@ export default function EditorialPolicyPage() {
  </FadeIn>
 
  <FadeIn delay={0.2}>
- <section className="bg-background border-y border-border p-8 border">
+ <section className="bg-muted/40 border border-border rounded-lg p-8">
  <h2 className="text-2xl font-bold text-foreground mb-4">Our Editorial Mission</h2>
  <p className="text-muted-foreground mb-4">Renewable Observer exists to provide accurate and meaningful information about renewable energy and sustainability.</p>
  <h3 className="font-bold text-foreground mb-2">Our mission is to:</h3>
@@ -56,7 +59,7 @@ export default function EditorialPolicyPage() {
  <p className="text-muted-foreground">Renewable Observer covers a broad range of topics related to renewable energy and sustainability.</p>
  
  <div className="grid sm:grid-cols-2 gap-6 not-prose mt-6">
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Renewable Energy</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Solar & Wind Energy</li>
@@ -64,7 +67,7 @@ export default function EditorialPolicyPage() {
  <li>Geothermal & Ocean Energy</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Energy Technologies</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Energy Storage & Green Hydrogen</li>
@@ -72,14 +75,14 @@ export default function EditorialPolicyPage() {
  <li>Digital Energy Solutions</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Sustainable Mobility</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Electric Vehicles & Charging Infrastructure</li>
  <li>Fleet Electrification & Battery Technologies</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Sustainability</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>ESG & Climate Action</li>
@@ -87,14 +90,14 @@ export default function EditorialPolicyPage() {
  <li>Environmental Innovation</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Markets and Finance</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Renewable Energy Investments & Project Financing</li>
  <li>Green Bonds, Venture Capital, M&A</li>
  </ul>
  </div>
- <div className="bg-background border p-6 ">
+ <div className="bg-background border p-6">
  <h3 className="font-bold text-primary mb-2">Policy and Regulation</h3>
  <ul className="text-sm text-muted-foreground space-y-1">
  <li>Government Policies & Regulatory Developments</li>
@@ -164,7 +167,7 @@ export default function EditorialPolicyPage() {
  </FadeIn>
 
  <FadeIn delay={0.8}>
- <section className="bg-background border-t-4 border-t-primary border-x border-b border-border border border-primary/20 p-8 text-center md:text-left mt-12">
+ <section className="bg-primary/5 border border-primary/20 border-t-4 border-t-primary rounded-lg p-8 text-center md:text-left mt-12">
  <h2 className="text-2xl font-bold text-foreground mb-4">Contact Renewable Observer</h2>
  <p className="text-muted-foreground mb-6">For editorial questions, corrections, or policy-related inquiries:</p>
  <div className="grid md:grid-cols-2 gap-6">

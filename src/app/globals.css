@@ -16,6 +16,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
+  /* Headlines and article body. Serif carries authority at display sizes and
+     reads better over long copy — the two things a news page is judged on. */
+  --font-serif: var(--font-serif);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -145,4 +148,28 @@
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
+
+  /* Scroll reveal, replacing framer-motion's whileInView.
+     Content starts visible and is only animated where the browser supports
+     scroll-driven animation, so it is never hidden waiting on a script. */
+  .ro-fade-in {
+    animation: ro-fade-in-kf both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 22%;
+  }
+  @keyframes ro-fade-in-kf {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @supports not (animation-timeline: view()) {
+    .ro-fade-in { animation: none; opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ro-fade-in { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* Long-form article measure. Prose wider than ~75 characters measurably
+     hurts reading speed, and dwell time is the engagement signal this site
+     needs most. */
+  .prose-measure { max-width: 72ch; }
 }

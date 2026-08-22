@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/contact-us" },
+ openGraph: ogFor("/contact-us"),
  title: "Contact Renewable Observer | Editorial, Media & Business Inquiries",
  description: "Get in touch with Renewable Observer for editorial inquiries, press releases, media partnerships, advertising opportunities, industry collaborations, and general support.",
 }
@@ -42,7 +45,7 @@ export default function ContactUsPage() {
  <p className="text-lg text-muted-foreground mb-8">Renewable Observer is committed to responding to inquiries in a professional and timely manner.</p>
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
- <div className="bg-background border p-8 ">
+ <div className="bg-background border p-8">
  <h3 className="text-2xl font-bold mb-4 text-foreground">General Inquiries</h3>
  <p className="text-muted-foreground mb-4">For general questions about our website, content, services, reports, partnerships, or industry coverage, please contact:</p>
  <a href="mailto:hello@renewableobserver.com" className="text-primary font-bold text-lg hover:underline block mb-6">hello@renewableobserver.com</a>
@@ -58,7 +61,7 @@ export default function ContactUsPage() {
  </ul>
  </div>
 
- <div className="bg-background border p-8 ">
+ <div className="bg-background border p-8">
  <h3 className="text-2xl font-bold mb-4 text-foreground">Editorial Inquiries</h3>
  <p className="text-muted-foreground mb-4">For editorial matters, story suggestions, press releases, news tips, interview requests, expert commentary, and content-related questions, please contact:</p>
  <a href="mailto:editor@renewableobserver.com" className="text-secondary font-bold text-lg hover:underline block mb-6">editor@renewableobserver.com</a>
@@ -86,7 +89,7 @@ export default function ContactUsPage() {
  <p>We encourage companies, industry associations, research organizations, government agencies, and technology providers to share relevant information about:</p>
  
  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-8 not-prose">
- <div className="bg-background border-y border-border p-6 ">
+ <div className="bg-muted/40 border border-border rounded-lg p-6">
  <h4 className="font-bold text-foreground mb-3">Renewable Energy Projects</h4>
  <ul className="text-sm space-y-1">
  <li>Solar projects</li>
@@ -98,7 +101,7 @@ export default function ContactUsPage() {
  <li>Geothermal projects</li>
  </ul>
  </div>
- <div className="bg-background border-y border-border p-6 ">
+ <div className="bg-muted/40 border border-border rounded-lg p-6">
  <h4 className="font-bold text-foreground mb-3">Business Announcements</h4>
  <ul className="text-sm space-y-1">
  <li>Partnerships & Acquisitions</li>
@@ -114,7 +117,7 @@ export default function ContactUsPage() {
  <li>Storage & Smart grid solutions</li>
  </ul>
  </div>
- <div className="bg-background border-y border-border p-6 ">
+ <div className="bg-muted/40 border border-border rounded-lg p-6">
  <h4 className="font-bold text-foreground mb-3">Industry Reports</h4>
  <ul className="text-sm space-y-1">
  <li>Market studies</li>
@@ -234,7 +237,7 @@ export default function ContactUsPage() {
  </FadeIn>
 
  <FadeIn delay={0.8}>
- <section className="bg-background border-y border-border p-8 md:p-12 text-center">
+ <section className="bg-muted/40 border border-border rounded-lg p-8 md:p-12 text-center">
  <h2 className="text-3xl font-bold mb-6 text-foreground">Connect With Renewable Observer</h2>
  <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
  Whether you are sharing news, exploring partnerships, promoting events, or seeking information, we appreciate your interest in Renewable Observer.

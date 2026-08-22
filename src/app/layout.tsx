@@ -1,74 +1,99 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { MarketTicker } from "@/components/ui/market-ticker";
-import { DynamicAd } from "@/components/ui/dynamic-ad";
+import Link from "next/link";
 
-import { getPosts } from "@/lib/api";
+import { getPostsSafe } from "@/lib/api";
+import { SITE_URL, SITE_NAME, decodeHtml } from "@/lib/site";
+import { TWITTER_HANDLE, organizationSchema, websiteSchema } from "@/lib/seo";
 
+// UI, labels and metadata.
 const inter = Inter({
- variable: "--font-sans",
- subsets: ["latin"],
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
 });
 
+// Headlines and article body. `display: swap` keeps text paintable while the
+// face loads, so the headline is never the thing holding up LCP.
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "600", "700"],
+});
+
+const DEFAULT_DESCRIPTION =
+  "Renewable energy news, market intelligence and policy analysis covering solar, wind, green hydrogen, storage and the global energy transition.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.renewableobserver.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Renewable Observer | Modern Renewable Energy News",
+    default: "Renewable Observer | Renewable Energy News & Market Intelligence",
     template: "%s | Renewable Observer",
   },
-  description: "Your trusted source for the latest news in renewable energy, solar, wind, green hydrogen, and market intelligence.",
-  keywords: ["Renewable Energy", "Solar News", "Wind Energy", "Green Hydrogen", "Energy Finance"],
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  publisher: SITE_NAME,
+  keywords: [
+    "renewable energy news",
+    "solar energy news",
+    "wind energy",
+    "green hydrogen",
+    "energy storage",
+    "energy policy",
+    "clean energy market intelligence",
+  ],
+  // Inherited by every page that does not set its own. Pages built through
+  // pageMetadata() override these with their own canonical and card.
+  robots: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": `${SITE_URL}/feed.xml` },
+  },
+  // No title, description or url here on purpose. A page that doesn't declare
+  // its own openGraph block inherits this one wholesale, so hardcoding them
+  // gave all twenty static pages the same card title and an og:url pointing at
+  // the homepage. Left absent, Next derives each from the page's own title,
+  // description and canonical.
   openGraph: {
-    title: "Renewable Observer",
-    description: "Your trusted source for the latest news in renewable energy.",
-    siteName: "Renewable Observer",
-    locale: "en_US",
     type: "website",
+    siteName: SITE_NAME,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
   },
 };
 
-function decodeHtml(html: string) {
-  return html
-    .replace(/&#8220;/g, '“')
-    .replace(/&#8221;/g, '”')
-    .replace(/&#8216;/g, '‘')
-    .replace(/&#8217;/g, '’')
-    .replace(/&#8211;/g, '–')
-    .replace(/&#8212;/g, '—')
-    .replace(/&amp;/g, '&')
-    .replace(/&#038;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>');
-}
+import Script from "next/script";
 
 export default async function RootLayout({
  children,
 }: Readonly<{
  children: React.ReactNode;
 }>) {
-  const latestPosts = await getPosts(1);
-  const latestPost = latestPosts?.[0];
-  const breakingNewsText = latestPost ? decodeHtml(latestPost.title.rendered) : "Global renewable capacity additions set to double by 2030, new IEA report reveals.";
-  const breakingNewsLink = latestPost ? `/${latestPost.slug}` : "#";
+  // Safe variant on purpose: this strip appears on every route, so letting a
+  // backend error propagate here would 500 the entire site — including the
+  // static policy pages that need no backend at all.
+  const latestPosts = await getPostsSafe(1);
+  const latestPost = latestPosts[0];
 
  return (
- <html lang="en" suppressHydrationWarning className={`${inter.variable} h-full antialiased`}>
+ <html lang="en" suppressHydrationWarning className={`${inter.variable} ${sourceSerif.variable} h-full antialiased`}>
   <head>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "Renewable Observer",
-          "url": "https://www.renewableobserver.com/"
-        })
+        // Organization and WebSite emitted once site-wide. Articles reference
+        // the organization by @id rather than restating the publisher block.
+        __html: JSON.stringify([organizationSchema(), websiteSchema()])
       }}
     />
   </head>
@@ -86,11 +111,18 @@ export default async function RootLayout({
     <div className="w-full bg-[#0F5132] text-white py-1 px-4 text-xs font-medium flex justify-center">
       <div className="w-full max-w-[1200px] flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="uppercase font-bold tracking-wider text-yellow-400">Breaking</span>
-          <a href={breakingNewsLink} className="hidden sm:inline hover:underline hover:text-yellow-400 transition-colors line-clamp-1">{breakingNewsText}</a>
+          {/* Only shown when there is a real headline to link to — no filler. */}
+          {latestPost && (
+            <>
+              <span className="uppercase font-bold tracking-wider text-yellow-400">Breaking</span>
+              <Link href={`/${latestPost.slug}`} className="hidden sm:inline hover:underline hover:text-yellow-400 transition-colors line-clamp-1">
+                {decodeHtml(latestPost.title.rendered)}
+              </Link>
+            </>
+          )}
         </div>
         <div>
-          <a href="/newsletter" className="hover:text-yellow-400 transition-colors font-bold uppercase tracking-wider">Subscribe</a>
+          <Link href="/newsletter" className="hover:text-yellow-400 transition-colors font-bold uppercase tracking-wider">Subscribe</Link>
         </div>
       </div>
     </div>
@@ -106,6 +138,17 @@ export default async function RootLayout({
       </div>
     </div>
   </ThemeProvider>
+  
+  <Script src="https://www.googletagmanager.com/gtag/js?id=G-FNCGR6FWDD" strategy="afterInteractive" />
+  <Script id="google-analytics" strategy="afterInteractive">
+    {`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FNCGR6FWDD');
+    `}
+  </Script>
   </body>
  </html>
  );

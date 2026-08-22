@@ -1,7 +1,10 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Link from "next/link"
+import { ogFor } from "@/lib/seo"
 
 export const metadata = {
+ alternates: { canonical: "/advertise-with-us" },
+ openGraph: ogFor("/advertise-with-us"),
  title: "Advertise With Renewable Observer | Renewable Energy Advertising & Media Solutions",
  description: "Promote your renewable energy business through Renewable Observer. Explore advertising, sponsored content, media partnerships, event promotion, lead generation, and brand visibility opportunities.",
 }
@@ -37,7 +40,7 @@ export default function AdvertiseWithUsPage() {
  </FadeIn>
 
  <FadeIn delay={0.2}>
- <section className="bg-background border-y border-border p-8 md:p-12 border">
+ <section className="bg-muted/40 border border-border rounded-lg p-8 md:p-12">
  <h2 className="text-3xl font-bold mb-6 text-foreground">Why Advertise With Renewable Observer</h2>
  <p className="text-muted-foreground mb-6">Renewable Observer attracts readers actively seeking information related to renewable energy technologies, market developments, policy changes, sustainability initiatives, and clean energy investments.</p>
  
@@ -159,7 +162,7 @@ export default function AdvertiseWithUsPage() {
  <section className="space-y-6">
  <h2 className="text-3xl font-bold text-foreground">Campaign Objectives</h2>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
- <div className="bg-background border-y border-border p-8 ">
+ <div className="bg-muted/40 border border-border rounded-lg p-8">
  <h3 className="text-base font-bold mb-4">Brand Awareness Opportunities</h3>
  <p className="text-sm text-muted-foreground mb-4">Renewable Observer helps organizations strengthen their industry presence through targeted brand awareness campaigns.</p>
  <ul className="text-sm font-medium list-disc pl-5 space-y-1">
@@ -169,7 +172,7 @@ export default function AdvertiseWithUsPage() {
  <li>Thought Leadership Development</li>
  </ul>
  </div>
- <div className="bg-background border-y border-border p-8 ">
+ <div className="bg-muted/40 border border-border rounded-lg p-8">
  <h3 className="text-base font-bold mb-4">Lead Generation Programs</h3>
  <p className="text-sm text-muted-foreground mb-4">Organizations seeking measurable business outcomes can leverage lead generation opportunities to identify and engage qualified prospects.</p>
  <ul className="text-sm font-medium list-disc pl-5 space-y-1">
@@ -201,7 +204,7 @@ export default function AdvertiseWithUsPage() {
  <h3 className="text-lg font-bold mt-6 mb-2 text-foreground">Global Reach</h3>
  <p className="text-sm text-muted-foreground">Although headquartered in Noida, India, Renewable Observer serves a global audience across Asia Pacific, Europe, North America, Latin America, Middle East, and Africa.</p>
  </div>
- <div className="bg-background border-t-4 border-t-primary border-x border-b border-border p-8 border border-primary/20">
+ <div className="bg-primary/5 border border-primary/20 border-t-4 border-t-primary rounded-lg p-8">
  <h2 className="text-2xl font-bold mb-6 text-primary">Contact Our Team</h2>
  <p className="text-sm text-muted-foreground mb-6">We welcome inquiries regarding advertising, sponsorships, partnerships, and promotional opportunities.</p>
  <div className="space-y-4">
@@ -224,7 +227,7 @@ export default function AdvertiseWithUsPage() {
 
  <FadeIn delay={0.9}>
  <div className="text-center">
- <h2 className="text-3xl font-bold mb-6 text-foreground">Let's Build the Future Together</h2>
+ <h2 className="text-3xl font-bold mb-6 text-foreground">Let’s Build the Future Together</h2>
  <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
  Renewable Observer believes that collaboration, innovation, and knowledge sharing are essential to accelerating the global energy transition. By partnering with Renewable Observer, organizations can engage with a highly relevant audience while supporting informed discussions about renewable energy, sustainability, climate innovation, and the future of clean energy.
  </p>
